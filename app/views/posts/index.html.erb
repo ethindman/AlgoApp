@@ -1,0 +1,57 @@
+<div class="col-md-6">
+  <div class="row">
+  <div class="col-lg-12">
+    <form action="/search">
+      <div class="input-group">
+        <input type="text" class="form-control" placeholder="Search for..." name="search">
+        <span class="input-group-btn">
+          <button class="btn btn-default" type="submit">Go!</button>
+        </span>
+      </div><!-- /input-group -->
+    </form>
+  </div><!-- /.col-lg-6 -->
+</div>
+<h3>New Algorithms</h3>
+	<% @posts.each do |post| %>
+    <div class="media">
+      <div class="media-left">
+        <a href="/users/<%= post.user_id %>">
+          <img class="media-object img-circle" id="profile-pic" src="<%= post.user.gravatar %>" alt="Generic placeholder image">
+        </a>
+      </div>
+      <div class="media-body" data-no-turbolink>
+        <a href="/posts/<%= post.id %>"><h4 class="media-heading"><%= post.title %></h4></a>
+        <%=h truncate(post.description, :length => 60) %><br>
+        <i>Posted on: <%= post.created_at.to_formatted_s(:long_ordinal) %></i>
+        <a href="/mains/<%= post.category %>"><span class="label label-info"><%= post.category %></span></a>
+      </div>
+    </div>
+    <hr>
+		<% end %>
+</div>
+<div class="col-md-6">
+   <div class="panel panel-info">
+      <div class="panel-heading">
+        <h3 class="panel-title">Today's Algorithm Challenge</h3>
+      </div>
+      <div class="panel-body">
+        <strong>Sum2One</strong>Take a number's digit and continue summing them until only one digit remains.
+        <a href="">Learn more...</a>
+      </div>
+    </div>   
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h3 class="panel-title">Algorithm Categories</h3>
+      </div>
+      <div class="panel-body">
+        <a href="/mains/sort"><span class="label label-default">Sort</span></a>
+        <a href="/mains/array"><span class="label label-primary">Array</span></a>
+        <a href="/mains/binarysearch"><span class="label label-success">BinarySearch</span></a>
+        <a href="/mains/recursion"><span class="label label-info">Recursion</span></a>
+        <a href="/mains/linkedlist"><span class="label label-warning">LinkedList</span></a>
+        <a href="/mains/divide&conquer"><span class="label label-danger">Divide&Conquer</span></a>
+      </div>
+    </div>
+</div>
+
+<%= will_paginate @posts, previous_label: "First", next_label: "Last", inner_window: 1, outer_window: 0 %>

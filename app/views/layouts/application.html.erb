@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Demo</title>
+  <!-- Bootswatch: Flatly -->
+	<link rel="stylesheet" href="http://bootswatch.com/flatly/bootstrap.min.css"/>
+	<!-- jQuery 1.11.2 -->
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+
+  <nav class="navbar navbar-inverse navbar-static-top">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <% if session[:signed_in].nil? %>
+        <a class="navbar-brand" href="/mains">AlgoApp</a>
+        <% end %>
+        <% if session[:signed_in] == true %>
+        <a class="navbar-brand" href="/posts">AlgoApp</a>
+        <% end %>
+      </div>
+      <div id="navbar" class="navbar-collapse collapse">
+        <% if session[:signed_in] == true %>
+        <ul class="nav navbar-nav">
+          <li><a href="/posts/new">Post New Algorithm</a></li>
+        </ul>
+        <% end %>
+        <% if session[:signed_in].nil? %>
+        <form class="navbar-form navbar-right" action="/sessions" method="post">
+          <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+          <div class="form-group">
+            <input type="text" placeholder="Email" name="email" class="form-control">
+          </div>
+          <div class="form-group">
+            <input type="password" placeholder="Password" name="password" class="form-control">
+          </div>
+          <button type="submit" class="btn btn-success">Sign in</button>
+        </form>
+        <% end %>
+        <% if session[:signed_in] == true %>
+          <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+              <img src="<%= session[:gravatar] %>" class="img-circle" id="navbar-pic" alt="user image">
+              <%= session[:first_name] %> <%= session[:last_name] %><span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="/users">Profile</a></li>
+                <li class="divider"></li>
+                <li><a href="/logout">Logout</a></li>
+                <li><a href="#">Change Password</a></li>
+              </ul>
+            </li>
+          </ul>
+        <% end %>
+      </div><!--/.navbar-collapse -->
+    </div>
+  </nav>
+  <% if flash[:errors_array] %>
+    <div class="bs-example bs-example-standalone" data-example-id="dismissible-alert-js">
+      <div class="alert alert-warning alert-dismissible fade in" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <strong>Holy guacamole! <%= pluralize(flash[:errors_array].count, "error")%> preventd you from submitting: </strong> 
+      <% flash[:errors_array].each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </div>
+    </div>
+  <% end %>
+	<% if flash[:errors] %>
+		<div class="bs-example bs-example-standalone" data-example-id="dismissible-alert-js">
+		  <div class="alert alert-warning alert-dismissible fade in" role="alert">
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		    <strong>Oops!</strong> <%= flash[:errors] %>
+			</div>
+		</div>
+	<% end %>
+	<% if flash[:success] %>
+		<div class="bs-example bs-example-standalone" data-example-id="dismissible-alert-js">
+		  <div class="alert alert-info alert-dismissible fade in" role="alert">
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		    <strong>Sweet!</strong> <%= flash[:success] %>
+			</div>
+		</div>
+	<% end %>
+
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+
+				<%= yield %>
+				
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>

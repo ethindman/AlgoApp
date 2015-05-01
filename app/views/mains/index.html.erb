@@ -1,0 +1,40 @@
+<div class="col-md-6">
+	<h4 class="text-center">Connect with friends and share your algorithms with AlgoApp.</h4>
+	<ul>
+		<li>
+			<h3><span class="glyphicon glyphicon glyphicon-hourglass" aria-hidden="true"></span>
+			Save time and Keep track of your daily algorithm challenges</h3>
+		</li>
+		<li>
+			<h3><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+			Discover new ways of solving problems and build your skills</h3>
+		</li>
+		<li>
+			<h3><span class="glyphicon glyphicon-transfer" aria-hidden="true"></span>
+			Share your code and help others learn</h3>
+		</li>
+	</ul>
+
+</div>
+<div class="col-md-6">
+	<h1>Sign Up</h1>
+	<p>Take your algorithms to the next level.</p>
+	<form action="/users" method="post">
+	  <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+	  <div class="form-group">
+	  	<input type="text" class="form-control" name="first_name" placeholder="First name">
+	  </div>
+	 	<div class="form-group">
+		  <input type="text" class="form-control" name="last_name" placeholder="Last name">
+		</div>
+		<div class="form-group">
+		  <input type="email" class="form-control" name="email" placeholder="Email">
+		</div>
+		<div class="form-group">
+		  <input type="password" class="form-control" name="password" placeholder="Password">
+		</div>
+		<div class="pull-right">
+	  	<input type="submit" class="btn btn-primary" value="Sign Up">	
+		</div>
+	</form>
+</div>

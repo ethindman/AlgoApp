@@ -1,0 +1,62 @@
+<div class="row">
+	<div class="col-md-6">
+		<h1><%= @post.title %></h1>
+		<h5>Posted by <a href="/users/<%= @user.id %>"><%= @user.first_name %> <%= @user.last_name %></a></h5>
+		<% if @post.user_id == session[:user_id] %>
+			<a href="/posts/<%= @post.id %>/edit">Edit</a>
+		<% end %>
+		<h5>Created on: <%= @post.created_at.to_formatted_s(:long_ordinal)  %></h5>
+		<h5>Difficulty level: <%= @post.difficulty %></h5>
+		<h5>Category: <a href="/mains/<%= @post.category %>"><span class="label label-primary"><%= @post.category %></span></a></h5>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-12">
+	<p>Description: <%= @post.description %></p>
+		<pre data-language="javascript"><%= @post.code %></pre>
+<!-- 		<div class="pull-right">
+			<button class="btn btn-info">
+				<span class="glyphicon glyphicon-heart" aria-hidden="true" id="favorite-button"></span> Favorite
+			</button>
+		</div> -->
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-12">	
+		<h3>Add a comment</h3>
+		<hr>
+			<% @comments.each do |comment| %>
+    <div class="media">
+      <div class="media-left">
+        <a href="/users/<%= comment.user_id %>">
+          <img class="media-object img-circle" id="profile-pic" src="<%= comment.user.gravatar %>" alt="Generic placeholder image">
+        </a>
+      </div>
+      <div class="media-body">
+        <strong><%= comment.user.first_name %> <%= comment.user.last_name %></strong>
+        <%= comment.comment %><br>
+        <i>Posted <%= distance_of_time_in_words(comment.created_at, Time.new()) %> ago</i>
+        <% if comment.user_id == session[:user_id] || @post.user_id == session[:user_id] %>
+        	<a href="/comments/<%= comment.id %>" data-method="delete">Delete</a>
+        <% end %>
+      </div>
+    </div>
+    <hr>
+		<% end %>
+		<form action="/comments" method="POST">
+			<div class="form-group">
+				<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+				<textarea name="post[comment]" rows="4" class="form-control"></textarea>
+				<input type="hidden" name="post[post_id]" value="<%= @post.id %>">
+				<input type="hidden" name="post[user_id]" value="<%= session[:user_id] %>">
+			</div>
+			<div class="pull-right">
+				<button class="btn btn-success">Post Comment</button>
+			</div>
+		</form>
+	</div>
+	<div class="col-md-6">
+	</div>
+</div>

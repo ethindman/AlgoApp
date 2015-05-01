@@ -1,0 +1,50 @@
+<h1><span class="glyphicon glyphicon glyphicon-pencil" aria-hidden="true"></span> Post a new Algorithm</h1>
+
+<div class="col-md-8">
+	<form action="/posts" method="POST">
+		<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+		<div class="form-group">
+			<label for="title">Title:</label>
+			<input type="text" class="form-control" name="post[title]" id="title">
+		</div>
+		<div class="form-group">
+			<label for="code">Your Code:</label>
+			<textarea class="form-control" rows="12" name="post[code]" id="code"></textarea>
+		</div>
+		<div class="form-group">
+			<label for="description">Description:</label>
+			<textarea class="form-control" name="post[description]" id="description"></textarea>
+		</div>
+		<div class="form-group">
+			<label for="difficulty">Difficulty Level:</label>
+			<select class="form-control" name="post[difficulty]" id="difficulty">
+				<option value="1">1</option>
+				<option value="2">2</option>
+				<option value="3">3</option>
+				<option value="4">4</option>
+				<option value="5">5</option>
+			</select>
+		</div>
+		<div class="form-group">
+			<label for="category">Category Level:</label>
+			<select class="form-control" name="post[category]" id="category">
+        <option value="Sort">Sort</option>
+        <option value="Array">Array</option>
+        <option value="LinkedList">LinkedList</option>
+        <option value="Recursion">Recursion</option>
+        <option value="BinaryTree">BinaryTree</option>
+        <option value="Divide&Conquer">Divide&Conquer</option>
+        <option value="Fibonacci">Fibonacci</option>
+        <option value="Greedy">Greedy</option>
+        <option value="Branch&Bound">Branch&Bound</option>
+        <option value="BruteForce">BruteForce</option>
+        <option value="Randomized">Randomized</option>
+        <option value="Backtracking">Backtracking</option>
+        <option value="Other">Other</option>
+			</select>
+		</div>
+		<div class="pull-right">
+			<input type="submit" class="btn btn-success" value="Create">
+		</div>
+	</form>
+</div>
