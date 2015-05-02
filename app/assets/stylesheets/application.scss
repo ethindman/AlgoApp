@@ -1,0 +1,43 @@
+@import "bootstrap-sprockets";
+
+// First import cerulean variables
+@import "bootswatch/flatly/variables";
+
+// Then bootstrap itself
+@import "bootstrap";
+
+// And finally bootswatch style itself
+@import "bootswatch/flatly/bootswatch";
+
+//colors
+$chestnut_rose: indianred;
+
+.alert {
+	margin-top: -22px;
+	text-align: center;
+}
+#navbar-pic {
+	height: 38px;
+	width: 38px;
+	margin-right: 5px;
+}
+#profile-pic {
+	height: 64px;
+	width: 64px;
+}
+#favorite-button {
+	color: $chestnut_rose;
+}
+
+#container {
+	min-height: 350px;
+}
+
+#editor { 
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  font-size: 14px;
+}

@@ -12,5 +12,10 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require bootstrap-sprockets
 //= require turbolinks
 //= require_tree .
+//= require ace/ace
+//= require ace/worker-html
+//= require ace/theme-monokai
+//= require ace/mode-javascript
