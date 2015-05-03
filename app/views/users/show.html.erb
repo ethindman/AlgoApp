@@ -5,10 +5,10 @@
   <div class="media-body">
     <h4 class="media-heading"><%= @current_user.first_name %>'s Profile</h4>
     <p>Member since: <%= @current_user.created_at.to_formatted_s(:long_ordinal) %></p>
-    <% if !@current_user.belts.nil? %>
+    <% if @current_user.belts.length != 0 %>
    		<p>Belts: <%= @current_user.belts %></p>
    	<% end %>
-   	<% if !@current_user.summary.nil? %>
+   	<% if @current_user.summary.length != 0 %>
     	<p>Summary: <%= @current_user.summary %></p>
     <% end %>
   </div>
