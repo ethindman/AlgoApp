@@ -71,7 +71,6 @@ class PostsController < ApplicationController
       if Post.exists?(params[:id])
         @post = Post.find(params[:id])
       else 
-        flash[:errors] = "Couldn't find selected post."
         redirect_to :posts
       end
     end

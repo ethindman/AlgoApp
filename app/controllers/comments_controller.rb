@@ -1,12 +1,8 @@
 class CommentsController < ApplicationController
-  def index
-  end
-
-  def new
-  end
 
   def create
-    @comment = Comment.create( comment_params )
+    @comment = Comment.new(comment_params)
+    @comment.user_id = session[:user_id]
     if @comment.save
       flash[:success] = "Comment successfully posted!"
       redirect_to "/posts/#{params[:post][:post_id]}"
@@ -14,10 +10,6 @@ class CommentsController < ApplicationController
       flash[:errors_array] = @comment.errors.full_messages
       redirect_to "/posts/#{params[:post][:post_id]}"
     end
-  end
-
-  def show
-    render html: "TOG HERE"
   end
 
   def destroy
@@ -29,19 +21,13 @@ class CommentsController < ApplicationController
       redirect_to "/posts/#{@comment.post_id}"
     else
       flash[:errors] = "You can only delete your own comments"
-      redirect_to "/posts/#{@comment.post_id}"
+      redirect_to :posts
     end
-  end
-
-  def edit
-  end
-
-  def update
   end
   
   private 
   def comment_params
-   params.require(:post).permit(:comment, :post_id, :user_id)
+   params.require(:post).permit(:comment, :rating, :post_id)
   end
   
 end
