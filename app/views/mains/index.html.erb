@@ -22,16 +22,19 @@
 	<form action="/users" method="post">
 	  <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
 	  <div class="form-group">
-	  	<input type="text" class="form-control" name="first_name" placeholder="First name">
+	  	<input type="text" class="form-control" name="user[first_name]" placeholder="First name">
 	  </div>
 	 	<div class="form-group">
-		  <input type="text" class="form-control" name="last_name" placeholder="Last name">
+		  <input type="text" class="form-control" name="user[last_name]" placeholder="Last name">
 		</div>
 		<div class="form-group">
-		  <input type="email" class="form-control" name="email" placeholder="Email">
+		  <input type="email" class="form-control" name="user[email]" placeholder="Email">
 		</div>
 		<div class="form-group">
-		  <input type="password" class="form-control" name="password" placeholder="Password">
+		  <input type="password" class="form-control" name="user[password]" placeholder="Password">
+		</div>
+		<div class="form-group">
+		  <input type="password" class="form-control" name="user[password_confirmation]" placeholder="Confirm Password">
 		</div>
 		<div class="pull-right">
 	  	<input type="submit" class="btn btn-primary" value="Sign Up">	

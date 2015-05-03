@@ -9,26 +9,16 @@ class UsersController < ApplicationController
 
   # create new user and log them in
   def create
-    @user = User.new
-    @user.first_name = params[:first_name]
-    @user.last_name = params[:last_name]
-    @user.email = params[:email]
-    @user.encrypted_password = params[:password]
-    
-    # get the email from URL-parameters or what have you and make lowercase
-    email_address = params[:email].downcase
-     
-    # create the md5 hash
+    @user = User.new(user_params)
+    #create gravatar
+    email_address = params[:user][:email].downcase
     hash = Digest::MD5.hexdigest(email_address)
-     
-    # compile URL which can be used in <img src="RIGHT_HERE"...
     image_src = "http://www.gravatar.com/avatar/#{hash}?d=retro"
-
     @user.gravatar = image_src
     
     if @user.save
-      session[:user_id] = @user.id
       session[:signed_in] = true
+      session[:user_id] = @user.id
       session[:first_name] = @user.first_name
       session[:last_name] = @user.last_name
       session[:gravatar] = @user.gravatar
@@ -53,4 +43,10 @@ class UsersController < ApplicationController
 
   def destroy
   end
+
+  private
+    def user_params
+      params.require(:user).permit(:first_name, :last_name, :email, :password, :password_confirmation, :gravatar)
+    end
+
 end

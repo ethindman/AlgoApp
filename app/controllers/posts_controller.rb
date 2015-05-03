@@ -45,7 +45,7 @@ class PostsController < ApplicationController
     redirect_to :post
   end
   private 
-  def post_params
-   params.require(:post).permit(:title, :code, :description, :difficulty, :category)
-  end
+    def post_params
+     params.require(:post).permit(:title, :code, :description, :difficulty, :category)
+    end
 end

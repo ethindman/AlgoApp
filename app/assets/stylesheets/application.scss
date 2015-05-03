@@ -1,3 +1,17 @@
+@import "bootstrap-sprockets";
+
+// First import cerulean variables
+@import "bootswatch/flatly/variables";
+
+// Then bootstrap itself
+@import "bootstrap";
+
+// And finally bootswatch style itself
+@import "bootswatch/flatly/bootswatch";
+
+//colors
+$chestnut_rose: indianred;
+
 .alert {
 	margin-top: -22px;
 	text-align: center;
@@ -11,9 +25,8 @@
 	height: 64px;
 	width: 64px;
 }
-
 #favorite-button {
-	color: indianred;
+	color: $chestnut_rose;
 }
 
 #container {
