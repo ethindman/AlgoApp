@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  before_action :set_user
+  before_action :set_user, except: [:show]
   before_action :set_post, only: [:show, :edit, :update, :destroy]
 
   def index
@@ -21,7 +21,8 @@ class PostsController < ApplicationController
   end
 
   def show
-    @user = User.find(@post.user_id)
+    @user_id = session[:user_id]
+    @current_user = User.find(@post.user_id)
     @comments = Post.find(params[:id]).comments.includes(:user)
   end
 
@@ -67,7 +68,12 @@ class PostsController < ApplicationController
     end
 
     def set_post
-      @post = Post.find(params[:id])
+      if Post.exists?(params[:id])
+        @post = Post.find(params[:id])
+      else 
+        flash[:errors] = "Couldn't find selected post."
+        redirect_to :posts
+      end
     end
 
     def post_params

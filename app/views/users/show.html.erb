@@ -5,24 +5,22 @@
   <div class="media-body">
     <h4 class="media-heading"><%= @current_user.first_name %>'s Profile</h4>
     <p>Member since: <%= @current_user.created_at.to_formatted_s(:long_ordinal) %></p>
-    <% if @current_user.belts.length != 0 %>
+    <% if @current_user.belts %>
    		<p>Belts: <%= @current_user.belts %></p>
    	<% end %>
-   	<% if @current_user.summary.length != 0 %>
+   	<% if @current_user.summary %>
     	<p>Summary: <%= @current_user.summary %></p>
     <% end %>
   </div>
 </div>
 
-<h4>My Algorithms</h4>
+<h4><%= @current_user.first_name %>'s  Algorithms</h4>
 <table class="table table-bordered">
 	<thead>
 		<tr>
 			<th>Title</th>
 			<th>Description</th>
 			<th>Created On</th>
-			<th>Delete</th>
-			<th>Update</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -31,8 +29,6 @@
 			<td><a href="/posts/<%= post.id %>"><%= post.title %></a></td>
 			<td><%= post.description %></td>
 			<td><%= post.created_at.to_formatted_s(:long_ordinal) %></td>			
-			<td><a href="/posts/<%= post.id %>" data-method="delete">Delete</a></td>
-			<td><a href="/posts/<%= post.id %>/edit">Edit</a></td>
 		</tr>
 		<% end %>
 	</tbody>

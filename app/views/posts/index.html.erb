@@ -15,9 +15,13 @@
 	<% @posts.each do |post| %>
     <div class="media">
       <div class="media-left">
-        <a href="/users/<%= post.user_id %>">
-          <img class="media-object img-circle" id="profile-pic" src="<%= post.user.gravatar %>" alt="Generic placeholder image">
-        </a>
+        <% if post.user_id == @user.id %>
+          <a href="/users">
+        <% else %>
+          <a href="/users/<%= post.user_id %>">
+        <% end %>
+            <img class="media-object img-circle" id="profile-pic" src="<%= post.user.gravatar %>" alt="Generic placeholder image">
+          </a>
       </div>
       <div class="media-body">
         <a href="/posts/<%= post.id %>"><h4 class="media-heading"><%= post.title %></h4></a>

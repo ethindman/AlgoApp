@@ -1,9 +1,8 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:edit, :update, :destroy]
+  before_action :set_user, only: [:index, :edit, :update, :destroy]
 
   def index
-    @user = User.find(session[:user_id])
-    @myPosts = User.find(session[:user_id]).posts
+    @myPosts = @user.posts
   end
 
   def new
@@ -36,7 +35,7 @@ class UsersController < ApplicationController
   end
 
   def update
-    @user.update( profile_params )
+    @user.update(profile_params)
     if @user.save
       flash[:success] = "Profile updated!"
       redirect_to :users
@@ -47,8 +46,13 @@ class UsersController < ApplicationController
   end
 
   def show
-    @current_user = User.find(params[:id])
-    @current_user_posts = User.find(params[:id]).posts
+    if User.exists?(params[:id])
+      @current_user = User.find(params[:id])
+      @current_user_posts = User.find(params[:id]).posts
+    else
+      flash[:errors] = "Couldn't find selected user."
+      redirect_to :posts
+    end
   end
 
   def destroy

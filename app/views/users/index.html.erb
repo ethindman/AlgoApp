@@ -1,6 +1,6 @@
 <div class="media">
   <div class="media-left">
-    <img class="media-object img-circle" src="<%= session[:gravatar] %>" alt="gravatar image">
+    <img class="media-object img-circle" src="<%= @user.gravatar %>" alt="gravatar image">
   </div>
   <div class="media-body">
     <div class="pull-right">
@@ -8,14 +8,15 @@
 				<%= link_to "Edit profile", edit_user_path(@user), class: "btn btn-danger" %>
 			<% end %>
 		</div>
-    <h4 class="media-heading"><%= @user.first_name %>'s Profile</h4>
+    <h4 class="media-heading">My Profile</h4>
+    <p>Full Name: <%= @user.first_name %> <%= @user.last_name %></p>
     <p>Member since: <%= @user.created_at.to_formatted_s(:long_ordinal) %></p>
-    <% if @user.belts.length == 0 && @user.id == session[:user_id] %>
+    <% if !@user.belts && @user.id == session[:user_id] %>
     	<%= link_to "Add certifications", edit_user_path(@user) %>
     <% else %>
     	<p>Belts: <%= @user.belts %></p>
 		<% end %>
-		<% if @user.summary.length == 0 && @user.id == session[:user_id] %>
+		<% if !@user.summary && @user.id == session[:user_id] %>
     	<%= link_to "Add description", edit_user_path(@user) %>
     <% else %>
     	<p>Summary: <%= @user.summary %></p>
