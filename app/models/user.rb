@@ -8,7 +8,7 @@ class User < ActiveRecord::Base
 	
 	validates :first_name, :last_name, presence: true, length: { in: 2..30 }
 	validates :email, presence: true, uniqueness: { case_sensitive: false }, format: { with: EMAIL_REGEX }
-	validates :password, presence: true, confirmation: true, length: { in: 8..100 }
+	validates :password, presence: true, on: create, confirmation: true, length: { in: 8..100 }
 
 	before_save :encrypt_password
 

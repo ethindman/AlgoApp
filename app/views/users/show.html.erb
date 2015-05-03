@@ -1,12 +1,16 @@
 <div class="media">
   <div class="media-left">
-    <a href="#">
-      <img class="media-object img-circle" src="<%= @current_user.gravatar %>" alt="gravatar image">
-    </a>
+    <img class="media-object img-circle" src="<%= @current_user.gravatar %>" alt="gravatar image">
   </div>
   <div class="media-body">
     <h4 class="media-heading"><%= @current_user.first_name %>'s Profile</h4>
     <p>Member since: <%= @current_user.created_at.to_formatted_s(:long_ordinal) %></p>
+    <% if !@current_user.belts.nil? %>
+   		<p>Belts: <%= @current_user.belts %></p>
+   	<% end %>
+   	<% if !@current_user.summary.nil? %>
+    	<p>Summary: <%= @current_user.summary %></p>
+    <% end %>
   </div>
 </div>
 

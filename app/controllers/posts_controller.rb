@@ -1,6 +1,7 @@
 class PostsController < ApplicationController
   def index
     @posts = Post.all.includes(:user).order(created_at: "DESC").paginate(page: params[:page], per_page: 15)
+    @current_user = User.find(session[:user_id])
   end
 
   def new

@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  before_action :set_user, only: [:edit, :update, :destroy]
+
   def index
     @user = User.find(session[:user_id])
     @myPosts = User.find(session[:user_id]).posts
@@ -34,6 +36,14 @@ class UsersController < ApplicationController
   end
 
   def update
+    @user.update( profile_params )
+    if @user.save
+      flash[:success] = "Profile updated!"
+      redirect_to :users
+    else
+      flash[:success] = "Something went wrong... Please try again later."
+      redirect_to :users
+    end
   end
 
   def show
@@ -45,8 +55,16 @@ class UsersController < ApplicationController
   end
 
   private
+    def set_user
+      @user = User.find(session[:user_id])
+    end
+
     def user_params
       params.require(:user).permit(:first_name, :last_name, :email, :password, :password_confirmation, :gravatar)
+    end
+
+    def profile_params
+      params.require(:profile).permit(:first_name, :last_name, :belts, :summary)
     end
 
 end

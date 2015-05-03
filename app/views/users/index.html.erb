@@ -1,35 +1,53 @@
 <div class="media">
   <div class="media-left">
-    <a href="#">
-      <img class="media-object img-circle" src="<%= session[:gravatar] %>" alt="gravatar image">
-    </a>
+    <img class="media-object img-circle" src="<%= session[:gravatar] %>" alt="gravatar image">
   </div>
   <div class="media-body">
+    <div class="pull-right">
+			<% if @user.id == session[:user_id] %>
+				<%= link_to "Edit profile", edit_user_path(@user), class: "btn btn-danger" %>
+			<% end %>
+		</div>
     <h4 class="media-heading"><%= @user.first_name %>'s Profile</h4>
     <p>Member since: <%= @user.created_at.to_formatted_s(:long_ordinal) %></p>
+    <% if @user.belts.length == 0 && @user.id == session[:user_id] %>
+    	<%= link_to "Add certifications", edit_user_path(@user) %>
+    <% else %>
+    	<p>Belts: <%= @user.belts %></p>
+		<% end %>
+		<% if @user.summary.length == 0 && @user.id == session[:user_id] %>
+    	<%= link_to "Add description", edit_user_path(@user) %>
+    <% else %>
+    	<p>Summary: <%= @user.summary %></p>
+    <% end %>
   </div>
 </div>
 
-<h4>My Algorithms</h4>
-<table class="table table-bordered">
-	<thead>
-		<tr>
-			<th>Title</th>
-			<th>Description</th>
-			<th>Created On</th>
-			<th>Delete</th>
-			<th>Update</th>
-		</tr>
-	</thead>
-	<tbody>
-	<% @myPosts.each do |post| %>
-		<tr>
-			<td><a href="/posts/<%= post.id %>"><%= post.title %></a></td>
-			<td><%= post.description %></td>
-			<td><%= post.created_at.to_formatted_s(:long) %></td>			
-			<td><a href="/posts/<%= post.id %>" data-method="delete">Delete</a></td>
-			<td><a href="/posts/<%= post.id %>/edit">Edit</a></td>
-		</tr>
-		<% end %>
-	</tbody>
-</table>
+<h3>My Algorithms</h3>
+<% if @myPosts.length == 0 %>
+	<h5>Looks like you haven't uploaded any Algorithms yet...</h5>
+	<%= link_to "Post first algorithm!", new_post_path, class: "btn btn-info" %>
+<% else %>
+	<table class="table table-bordered">
+		<thead>
+			<tr>
+				<th>Title</th>
+				<th>Description</th>
+				<th>Created On</th>
+				<th>Delete</th>
+				<th>Update</th>
+			</tr>
+		</thead>
+		<tbody>
+		<% @myPosts.each do |post| %>
+			<tr>
+				<td><a href="/posts/<%= post.id %>"><%= post.title %></a></td>
+				<td><%= post.description %></td>
+				<td><%= post.created_at.to_formatted_s(:long) %></td>			
+				<td><a href="/posts/<%= post.id %>" data-method="delete">Delete</a></td>
+				<td><a href="/posts/<%= post.id %>/edit">Edit</a></td>
+			</tr>
+			<% end %>
+		</tbody>
+	</table>
+<% end %>

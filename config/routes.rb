@@ -6,7 +6,7 @@ Rails.application.routes.draw do
 
   get 'search' => 'mains#show'
 
-  resources :products, :users, :sessions, :mains, :posts, :comments
+  resources :users, :sessions, :mains, :posts, :comments
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
