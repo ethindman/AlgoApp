@@ -22,8 +22,13 @@ class PostsController < ApplicationController
 
   def show
     @user_id = session[:user_id]
+    
     @current_user = User.find(@post.user_id)
+
     @comments = Post.find(params[:id]).comments.includes(:user).paginate(page: params[:page], per_page: 15)
+    
+    @favorites = Post.find(params[:id]).favorites
+    
     if @comments.blank?
       @avg_review = 0
     else

@@ -52,3 +52,31 @@
 		</tbody>
 	</table>
 <% end %>
+
+<br>
+<br>
+
+
+<h3>My Favorites</h3>
+<% if @myFavorites.length == 0 %>
+	<h5>Looks like you haven't liked any algorithms yet...</h5>
+<% else %>
+	<table class="table table-bordered">
+		<thead>
+			<tr>
+				<th>Posted By</th>
+				<th>Title</th>
+				<th>Description</th>
+			</tr>
+		</thead>
+		<tbody>
+		<% @myFavorites.each do |favorite| %>
+			<tr>
+				<td><%= favorite.post.user.first_name %> <%= favorite.post.user.last_name %></td>
+				<td><a href="/posts/<%= favorite.post.id %>"><%= favorite.post.title %></a></td>
+				<td><%= favorite.post.description %></td>		
+			</tr>
+			<% end %>
+		</tbody>
+	</table>
+<% end %>

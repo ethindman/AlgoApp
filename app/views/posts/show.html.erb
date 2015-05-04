@@ -1,10 +1,26 @@
 <div class="row">
 	<div class="col-md-12">
-		<% if @post.user_id == session[:user_id] %>
+		<% if @post.user_id != session[:user_id] && @favorites.where(user_id: @user_id).empty? %>
 			<div class="pull-right">
-				<a href="/favorite/<%= @post.id %>"><button class="btn btn-info">
-					<span class="glyphicon glyphicon-heart" aria-hidden="true" id="favorite-button"></span> Favorite
-				</button></a>
+				<form action="/favorites" method="POST">
+					<input type="hidden" name="favorite[post_id]" value="<%= @post.id %>" >
+					<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+					<button class="btn btn-info">
+						 Like <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+					</button>
+				</form>
+			</div>
+			<% elsif @post.user_id != session[:user_id] %>
+			<% @favorite = @favorites.where(user_id: @user_id) %>
+			<div class="pull-right">
+				<form action="/favorites/<%= @favorite[0].id %>" method="POST">
+					<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+					<input type="hidden" name="favorite[post_id]" value="<%= @post.id %>" >
+					<input type="hidden" name="_method" value="delete">
+					<button class="btn btn-info">
+						Unlike <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
+					</button>
+				</form>
 			</div>
 		<% end %>
 		<h1><%= @post.title %></h1>

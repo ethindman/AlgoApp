@@ -3,6 +3,7 @@ class UsersController < ApplicationController
 
   def index
     @myPosts = @user.posts
+    @myFavorites = @user.favorites.includes(:post).includes(:user)
   end
 
   def new
@@ -41,7 +42,7 @@ class UsersController < ApplicationController
       session[:last_name] = @user.last_name
       redirect_to :users
     else
-      flash[:errors] = "Something went wrong... Please try again later."
+      flash[:success] = "Something went wrong... Please try again later."
       redirect_to :users
     end
   end
@@ -58,18 +59,6 @@ class UsersController < ApplicationController
 
   def destroy
   end
-
-  def favorite
-    @favorites = @user.favorite_posts
-
-    @favorites += "," +params[:id]
-
-    @user.update(favorite_posts: @favorites)
-    
-
-    redirect_to :post
-    flash[:success] = "Algorithm added to favorites!"
-  end 
 
   private
     def set_user

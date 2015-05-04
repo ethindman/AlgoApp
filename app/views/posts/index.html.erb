@@ -26,7 +26,7 @@
       <div class="media-body">
         <a href="/posts/<%= post.id %>"><h4 class="media-heading"><%= post.title %></h4></a>
         <%=h truncate(post.description, :length => 60) %><br>
-        <i>Posted on: <%= post.created_at.to_formatted_s(:long_ordinal) %></i>
+        <i>Posted about <%= distance_of_time_in_words(post.created_at, Time.new()) %> ago </i>
         <a href="/mains/<%= post.category %>"><span class="label label-info"><%= post.category %></span></a>
       </div>
     </div>
