@@ -26,7 +26,7 @@ class User < ActiveRecord::Base
 
 	private
 		def encrypt_password
-			self.hash_key = Digest::SHA2.hexdigest("#{Time.now.utc}--#{self.password}") if self.new_record?
+			self.hash_key = Digest::SHA2.hexdigest("#{self.password}") if self.new_record?
 			self.encrypted_password = encrypt(self.password)
 		end
 

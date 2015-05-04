@@ -1,6 +1,11 @@
 <div class="row">
-	<div class="col-md-6">
+	<div class="col-md-12">
 		<h1><%= @post.title %></h1>
+		<% if @post.user_id == session[:user_id] %>
+			<div class="pull-right">
+				<a href="/posts/<%= @post.id %>/edit" class="btn btn-info">Edit</a>
+			</div>
+		<% end %>
 		<div class="star-rating" data-score= <%= @avg_review %> ></div>
 		<% if @comments.length < 1 %>
 			<em>No reviews yet...</em>
@@ -14,9 +19,6 @@
 			<a href="/users/<%= @current_user.id %>">
 		<% end %>
 		<%= @current_user.first_name %> <%= @current_user.last_name %></a></h5>
-		<% if @post.user_id == session[:user_id] %>
-			<a href="/posts/<%= @post.id %>/edit">Edit</a>
-		<% end %>
 		<h5>Created on: <%= @post.created_at.to_formatted_s(:long_ordinal)  %></h5>
 		<h5>Difficulty level: <%= @post.difficulty %></h5>
 		<h5>Category: <a href="/mains/<%= @post.category %>"><span class="label label-primary"><%= @post.category %></span></a></h5>
