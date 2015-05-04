@@ -1,5 +1,12 @@
 <div class="row">
 	<div class="col-md-12">
+		<% if @post.user_id == session[:user_id] %>
+			<div class="pull-right">
+				<a href="/favorite/<%= @post.id %>"><button class="btn btn-info">
+					<span class="glyphicon glyphicon-heart" aria-hidden="true" id="favorite-button"></span> Favorite
+				</button></a>
+			</div>
+		<% end %>
 		<h1><%= @post.title %></h1>
 		<% if @post.user_id == session[:user_id] %>
 			<div class="pull-right">
@@ -22,12 +29,12 @@
 		<h5>Created on: <%= @post.created_at.to_formatted_s(:long_ordinal)  %></h5>
 		<h5>Difficulty level: <%= @post.difficulty %></h5>
 		<h5>Category: <a href="/mains/<%= @post.category %>"><span class="label label-primary"><%= @post.category %></span></a></h5>
+		<p>Description: <%= @post.description %></p>
 	</div>
 </div>
 
 <div class="row">
 	<div class="col-md-12">
-		<p>Description: <%= @post.description %></p>
 		<div id="container">
 			<div id="editor"><%= @post.code %></div>
 		</div>
@@ -37,6 +44,9 @@
 <div class="row">
 	<div class="col-md-12">	
 		<h3>Reviews of this Algorithm</h3>
+		<% if @comments.length < 1 %>
+			<h5>No reviews added yet...</h5>
+		<% end %>
 		<hr>
 			<% @comments.each do |comment| %>
     <div class="media">
@@ -106,8 +116,3 @@
 		scoreName: 'post[rating]'
 	});
 </script>
-<!-- <div class="pull-right">
-	<button class="btn btn-info">
-		<span class="glyphicon glyphicon-heart" aria-hidden="true" id="favorite-button"></span> Favorite
-	</button>
-</div> -->

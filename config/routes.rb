@@ -6,6 +6,8 @@ Rails.application.routes.draw do
 
   get 'search' => 'mains#show'
 
+  get 'favorite/:id' => 'users#favorite'
+
   resources :users, :sessions, :mains, :posts, :comments
 
   # The priority is based upon order of creation: first created -> highest priority.

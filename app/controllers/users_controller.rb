@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:index, :edit, :update, :destroy]
+  before_action :set_user, only: [:index, :edit, :update, :destroy, :favorite]
 
   def index
     @myPosts = @user.posts
@@ -35,14 +35,13 @@ class UsersController < ApplicationController
   end
 
   def update
-    @user.update(profile_params)
-    if @user.save
+    if @user.update(profile_params)
       flash[:success] = "Profile updated!"
       session[:first_name] = @user.first_name
       session[:last_name] = @user.last_name
       redirect_to :users
     else
-      flash[:success] = "Something went wrong... Please try again later."
+      flash[:errors] = "Something went wrong... Please try again later."
       redirect_to :users
     end
   end
@@ -59,6 +58,18 @@ class UsersController < ApplicationController
 
   def destroy
   end
+
+  def favorite
+    @favorites = @user.favorite_posts
+
+    @favorites += "," +params[:id]
+
+    @user.update(favorite_posts: @favorites)
+    
+
+    redirect_to :post
+    flash[:success] = "Algorithm added to favorites!"
+  end 
 
   private
     def set_user

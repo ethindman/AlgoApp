@@ -12,7 +12,7 @@ class User < ActiveRecord::Base
 	
 	validates :password, presence: true, on: create, confirmation: true, length: { in: 8..100 }
 
-	before_save :encrypt_password
+	before_create :encrypt_password
 
 	def has_password?(submitted_password)
 		self.encrypted_password == encrypt(submitted_password)
@@ -26,7 +26,7 @@ class User < ActiveRecord::Base
 
 	private
 		def encrypt_password
-			self.hash_key = Digest::SHA2.hexdigest("#{self.password}") if self.new_record?
+			self.hash_key = Digest::SHA2.hexdigest("#{Time.now.utc}--#{self.password}") if self.new_record?
 			self.encrypted_password = encrypt(self.password)
 		end
 
