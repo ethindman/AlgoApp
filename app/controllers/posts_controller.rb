@@ -24,6 +24,11 @@ class PostsController < ApplicationController
     @user_id = session[:user_id]
     @current_user = User.find(@post.user_id)
     @comments = Post.find(params[:id]).comments.includes(:user).paginate(page: params[:page], per_page: 15)
+    if @comments.blank?
+      @avg_review = 0
+    else
+      @avg_review = @comments.average(:rating)
+    end
   end
 
   def destroy

@@ -5,18 +5,17 @@ class SessionsController < ApplicationController
 
   #login
   def create
-    @user = User.authenticate(params[:email], params[:password])
-    if @user
-      session[:user_id] = @user.id
-      session[:signed_in] = true
-      session[:first_name] = @user.first_name
-      session[:last_name] = @user.last_name
-      session[:gravatar] = @user.gravatar
-      flash[:success] = "Login successful!"
-      redirect_to :posts
-    else
-      flash[:errors] = "Invalid email or password"
+    user = User.authenticate(params[:session][:email], params[:session][:password])
+    if user.nil? 
+      flash[:errors] = "Invalid Email or Password"
       redirect_to :mains
+    else 
+      session[:user_id] = user.id
+      session[:signed_in] = true
+      session[:first_name] = user.first_name
+      session[:last_name] = user.last_name
+      session[:gravatar] = user.gravatar
+      redirect_to :posts
     end
   end
 

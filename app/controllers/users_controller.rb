@@ -38,6 +38,8 @@ class UsersController < ApplicationController
     @user.update(profile_params)
     if @user.save
       flash[:success] = "Profile updated!"
+      session[:first_name] = @user.first_name
+      session[:last_name] = @user.last_name
       redirect_to :users
     else
       flash[:success] = "Something went wrong... Please try again later."
