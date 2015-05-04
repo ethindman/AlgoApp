@@ -48,6 +48,9 @@
         <% end %>
       </div>
     </div>
+    <div class="text-center">
+    	<%= will_paginate @comments, renderer: BootstrapPagination::Rails, previous_label: "Previous", next_label: "Next", inner_window: 1, outer_window: 0 %> 
+    </div>
     <hr>
 		<% end %>
 		<h3>Add your Review</h3>
