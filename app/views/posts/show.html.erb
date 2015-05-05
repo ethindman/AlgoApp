@@ -109,15 +109,14 @@
 	</div>
 </div>
 <script>
-    var editor = ace.edit("editor");
-    editor.setTheme("ace/theme/monokai");
-    editor.getSession().setMode("ace/mode/javascript");
-    editor.getSession().setTabSize(4);
-    editor.setHighlightActiveLine(false);
-    editor.setShowPrintMargin(false);
-    editor.getSession().setUseWrapMode(true);
-</script>
-<script>
+  var editor = ace.edit("editor");
+  editor.setTheme("ace/theme/monokai");
+  editor.getSession().setMode("ace/mode/javascript");
+  editor.getSession().setTabSize(4);
+  editor.setHighlightActiveLine(false);
+  editor.setShowPrintMargin(false);
+  editor.getSession().setUseWrapMode(true);
+
 	$('.star-rating').raty({
 		path: '/assets/',
 		readOnly: true,
@@ -125,8 +124,7 @@
 			return $(this).attr('data-score');
 		}
 	});
-</script>
-<script>
+
 	$('#star-rating').raty({
 		path: '/assets/',
 		scoreName: 'post[rating]'
