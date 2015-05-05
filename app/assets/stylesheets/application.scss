@@ -1,13 +1,13 @@
 @import "bootstrap-sprockets";
 
 // First import cerulean variables
-@import "bootswatch/flatly/variables";
+@import "bootswatch/cosmo/variables";
 
 // Then bootstrap itself
 @import "bootstrap";
 
 // And finally bootswatch style itself
-@import "bootswatch/flatly/bootswatch";
+@import "bootswatch/cosmo/bootswatch";
 
 //colors
 $chestnut_rose: indianred;
@@ -40,4 +40,11 @@ $chestnut_rose: indianred;
   bottom: 0;
   left: 0;
   font-size: 14px;
+}
+
+.label-default {
+	background: none;
+	border-radius: 5px;
+	border: 1px solid #ddd;
+	color: black;
 }

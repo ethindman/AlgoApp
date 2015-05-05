@@ -5,7 +5,6 @@ class PostsController < ApplicationController
   def index
     @posts = Post.all.includes(:user).order(created_at: "DESC").paginate(page: params[:page], per_page: 15)
     @followships = Followship.all
-
   end
 
   def new

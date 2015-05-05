@@ -11,9 +11,8 @@
 				</form>
 			</div>
 			<% elsif @post.user_id != session[:user_id] %>
-			<% @favorite = @favorites.where(user_id: @user_id) %>
 			<div class="pull-right">
-				<form action="/favorites/<%= @favorite[0].id %>" method="POST">
+				<form action="/favorites/<%= @post.id %>" method="POST">
 					<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
 					<input type="hidden" name="favorite[post_id]" value="<%= @post.id %>" >
 					<input type="hidden" name="_method" value="delete">

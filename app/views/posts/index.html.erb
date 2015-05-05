@@ -11,7 +11,7 @@
     </form>
   </div><!-- /.col-lg-6 -->
 </div>
-<h3>New Algorithms</h3>
+<h3>Newest Algorithms</h3>
 	<% @posts.each do |post| %>
     <div class="media">
       <div class="media-left">
@@ -22,25 +22,27 @@
         <% end %>
             <img class="media-object img-circle" id="profile-pic" src="<%= post.user.gravatar %>" alt="Generic placeholder image">
           </a>
-          <% if post.user_id != @user.id && @followships.where(user_id: post.user_id, follower_id: @user.id).empty? %>
-            <form action="/followships" method="POST">
-              <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-              <input type="hidden" name="follow[user_id]" value="<%= post.user_id %>" >
-              <input type="submit" value="Follow">
-            </form>
-            <% elsif post.user_id != @user.id %>
-            <form action="/followships/<%= post.user_id %>" method="POST">
-              <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-              <input type="hidden" name="_method" value="delete">
-              <input type="submit" value="Unfollow">
-            </form>
-          <% end %>
+          <div class="text-center">
+            <% if post.user_id != @user.id && @followships.where(user_id: post.user_id, follower_id: @user.id).empty? %>
+              <form action="/followships" method="POST">
+                <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+                <input type="hidden" name="follow[user_id]" value="<%= post.user_id %>">
+                <input type="submit" value="Follow" class="btn btn-success btn-xs">
+              </form>
+              <% elsif post.user_id != @user.id %>
+              <form action="/followships/<%= post.user_id %>" method="POST">
+                <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+                <input type="hidden" name="_method" value="delete">
+                <input type="submit" value="Unfollow" class="btn btn-success btn-xs">
+              </form>
+            <% end %> 
+          </div>
       </div>
       <div class="media-body">
         <a href="/posts/<%= post.id %>"><h4 class="media-heading"><%= post.title %></h4></a>
         <%=h truncate(post.description, :length => 60) %><br>
         <i>Posted about <%= distance_of_time_in_words(post.created_at, Time.new()) %> ago </i>
-        <a href="/mains/<%= post.category %>"><span class="label label-info"><%= post.category %></span></a>
+        <a href="/mains/<%= post.category %>"><span class="label label-primary"><%= post.category %></span></a>
       </div>
     </div>
     <hr>
@@ -50,7 +52,7 @@
     </div>
 </div>
 <div class="col-md-6">
-   <div class="panel panel-info">
+   <div class="panel panel-primary">
       <div class="panel-heading">
         <h3 class="panel-title">Today's Algorithm Challenge</h3>
       </div>
@@ -64,12 +66,13 @@
         <h3 class="panel-title">Algorithm Categories</h3>
       </div>
       <div class="panel-body">
+        <em>Search for an algorithm by category</em><br>
         <a href="/mains/sort"><span class="label label-default">Sort</span></a>
-        <a href="/mains/array"><span class="label label-primary">Array</span></a>
-        <a href="/mains/binarysearch"><span class="label label-success">BinarySearch</span></a>
-        <a href="/mains/recursion"><span class="label label-info">Recursion</span></a>
-        <a href="/mains/linkedlist"><span class="label label-warning">LinkedList</span></a>
-        <a href="/mains/divide&conquer"><span class="label label-danger">Divide&Conquer</span></a>
+        <a href="/mains/array"><span class="label label-default">Array</span></a>
+        <a href="/mains/binarysearch"><span class="label label-default">BinarySearch</span></a>
+        <a href="/mains/recursion"><span class="label label-default">Recursion</span></a>
+        <a href="/mains/linkedlist"><span class="label label-default">LinkedList</span></a>
+        <a href="/mains/divide&conquer"><span class="label label-default">Divide&Conquer</span></a>
       </div>
     </div>
 </div>

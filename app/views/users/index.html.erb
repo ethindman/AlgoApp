@@ -4,19 +4,22 @@
   </div>
   <div class="media-body">
     <div class="pull-right">
-			<% if @user.id == session[:user_id] %>
+			<% if @user.id == @user.id %>
 				<%= link_to "Edit profile", edit_user_path(@user), class: "btn btn-danger" %>
 			<% end %>
 		</div>
     <h4 class="media-heading">My Profile</h4>
     <p>Full Name: <%= @user.first_name %> <%= @user.last_name %></p>
+    <% if @myFollowers %>
+			<p>Followers: <%= @myFollowers.count %></p>
+    <% end %>
     <p>Member since: <%= @user.created_at.to_formatted_s(:long_ordinal) %></p>
-    <% if !@user.belts && @user.id == session[:user_id] %>
+    <% if !@user.belts && @user.id %>
     	<%= link_to "Add certifications", edit_user_path(@user) %>
     <% else %>
     	<p>Belts: <%= @user.belts %></p>
 		<% end %>
-		<% if !@user.summary && @user.id == session[:user_id] %>
+		<% if !@user.summary && @user.id %>
     	<%= link_to "Add description", edit_user_path(@user) %>
     <% else %>
     	<p>Summary: <%= @user.summary %></p>
@@ -56,27 +59,48 @@
 <br>
 <br>
 
-
-<h3>My Favorites</h3>
-<% if @myFavorites.length == 0 %>
-	<h5>Looks like you haven't liked any algorithms yet...</h5>
-<% else %>
-	<table class="table table-bordered">
-		<thead>
-			<tr>
-				<th>Posted By</th>
-				<th>Title</th>
-				<th>Description</th>
-			</tr>
-		</thead>
-		<tbody>
-		<% @myFavorites.each do |favorite| %>
-			<tr>
-				<td><%= favorite.post.user.first_name %> <%= favorite.post.user.last_name %></td>
-				<td><a href="/posts/<%= favorite.post.id %>"><%= favorite.post.title %></a></td>
-				<td><%= favorite.post.description %></td>		
-			</tr>
+<div class="row">
+	<div class="col-md-4">
+		<h3>People I'm Following</h3>
+		<% if @myFriends.length == 0 %>
+			<h5>Looks like you aren't following anybody yet...</h5>
+		<% else %>
+			<% @myFriends.each do |friend| %>
+				<div class="media">
+				  <div class="media-left">
+				    <a href="/users/<%= friend.user_id %>">
+				      <img class="media-object img-circle" id="profile-pic" src="<%= friend.user.gravatar %>" alt="Profile image">
+				    </a>
+				    <div class="text-center">
+							<form action="/followships/<%= friend.user_id %>" method="POST">
+						    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+						    <input type="hidden" name="_method" value="delete">
+						    <input type="submit" value="Unfollow" class="btn btn-success btn-xs">
+						  </form>
+						</div>
+				  </div>
+				  <div class="media-body">
+				    <a href="/users/<%= friend.user_id %>"><h4 class="media-heading"><%= friend.user.first_name %> <%= friend.user.last_name %></h4></a>
+				    <p><%=h truncate(friend.user.summary, :length => 60) %></p>
+				    <i>Member since: <%= friend.user.created_at %> </i>
+				  </div>
+				</div>
 			<% end %>
-		</tbody>
-	</table>
-<% end %>
+		<% end %>
+	</div>
+	<div class="col-md-8">
+		<h3>Algorithms I Like</h3>
+		<% if @myFavorites.length == 0 %>
+			<h5>Looks like you haven't liked any algorithms yet... Why not explore the site and find some?</h5>
+		<% else %>
+		<% @myFavorites.each do |favorite| %>
+			<div class="list-group">
+			  <a href="/posts/<%= favorite.post.id %>" class="list-group-item">
+			  <%= favorite.post.title %> <i>Posted by <%= favorite.post.user.first_name %> <%= favorite.post.user.last_name %> on <%= favorite.post.created_at.to_formatted_s(:long_ordinal) %></i>
+			  </a>
+			</div>
+		<% end %>
+		<% end %>
+	</div>
+</div>
+

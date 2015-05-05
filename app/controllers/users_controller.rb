@@ -4,6 +4,8 @@ class UsersController < ApplicationController
   def index
     @myPosts = @user.posts
     @myFavorites = @user.favorites.includes(:post).includes(:user)
+    @myFollowers = @user.followships
+    @myFriends = Followship.where(follower_id: @user.id).includes(:user)
   end
 
   def new

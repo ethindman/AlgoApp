@@ -5,24 +5,26 @@ class FollowshipsController < ApplicationController
   	@follow = Followship.new(follow_params)
   	@follow.follower_id = @user.id
     @id = follow_params[:user_id]
-    @new = User.find(@id)
+    @thisUser = User.find(@id)
   	if @follow.save
-  		flash[:success] = "You are now following #{@new.first_name}"
-  		redirect_to :posts
+  		flash[:success] = "You are now following #{@thisUser.first_name}"
+  		redirect_to(:back)
   	else
   		flash[:errors] = "Something went wrong..."
-  		redirect_to :posts
+  		redirect_to(:back)
   	end
   end
 
   def destroy
 	  @check = Followship.find_by(user_id: params[:id], follower_id: @user.id)
+	  @thisUser = User.find(params[:id])
 		if !@check.nil?
 			@check.destroy
-	  	redirect_to :posts
+			flash[:success] = "You have unfollowed #{@thisUser.first_name}"
+	  	redirect_to(:back)
 	  else
-	  	flash[:errors] = "Something went wrong"
-	  	redirect_to :posts
+	  	flash[:errors] = "Something went wrong.."
+	  	redirect_to(:back)
 	  end
   end
 
