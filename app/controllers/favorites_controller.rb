@@ -30,7 +30,7 @@ class FavoritesController < ApplicationController
   end
 
   private
-  	
+  
   	def set_user
   		@user = User.select("id, first_name, last_name, belts, gravatar, summary, created_at").find(session[:user_id])
   	end

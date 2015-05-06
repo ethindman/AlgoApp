@@ -22,7 +22,6 @@ class PostsController < ApplicationController
   end
 
   def show
-    
     @current_user = User.select("id, first_name, last_name, belts, gravatar, summary, created_at").find(@post.user_id)
     @comments = Post.find(params[:id]).comments.includes(:user).paginate(page: params[:page], per_page: 15)
     @favorites = Post.find(params[:id]).favorites
@@ -59,7 +58,7 @@ class PostsController < ApplicationController
       flash[:errors] = "You don't have permission to edit this post."
       redirect_to :posts
     else
-      @post.update( post_params )
+      @post.update(post_params)
       if @post.save
         flash[:success] = "Algorithm updated!"
         redirect_to :post
