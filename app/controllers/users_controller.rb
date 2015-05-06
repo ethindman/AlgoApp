@@ -51,7 +51,7 @@ class UsersController < ApplicationController
 
   def show
     if User.exists?(params[:id])
-      @current_user = User.find(params[:id])
+      @current_user = User.select("id, first_name, last_name, belts, gravatar, summary, created_at").find(params[:id])
       @current_user_posts = User.find(params[:id]).posts
     else
       flash[:errors] = "Couldn't find selected user."
@@ -64,7 +64,7 @@ class UsersController < ApplicationController
 
   private
     def set_user
-      @user = User.find(session[:user_id])
+      @user = User.select("id, first_name, last_name, belts, gravatar, summary, created_at").find(session[:user_id])
     end
 
     def user_params

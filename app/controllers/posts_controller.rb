@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  before_action :set_user, except: [:show]
+  before_action :set_user
   before_action :set_post, only: [:show, :edit, :update, :destroy]
 
   def index
@@ -22,12 +22,9 @@ class PostsController < ApplicationController
   end
 
   def show
-    @user_id = session[:user_id]
     
-    @current_user = User.find(@post.user_id)
-
+    @current_user = User.select("id, first_name, last_name, belts, gravatar, summary, created_at").find(@post.user_id)
     @comments = Post.find(params[:id]).comments.includes(:user).paginate(page: params[:page], per_page: 15)
-    
     @favorites = Post.find(params[:id]).favorites
     
     if @comments.blank?
@@ -75,7 +72,7 @@ class PostsController < ApplicationController
 
   private
     def set_user
-      @user = User.find(session[:user_id])
+      @user = User.select("id, first_name, last_name, belts, gravatar, summary, created_at").find(session[:user_id])
     end
 
     def set_post

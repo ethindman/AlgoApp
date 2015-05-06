@@ -31,7 +31,7 @@ class FollowshipsController < ApplicationController
   private
   	
   	def set_user
-  		@user = User.find(session[:user_id])
+  		@user = User.select("id, first_name, last_name, belts, gravatar, summary, created_at").find(session[:user_id])
   	end  	
 
   	def follow_params

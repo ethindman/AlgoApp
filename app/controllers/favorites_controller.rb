@@ -5,7 +5,7 @@ class FavoritesController < ApplicationController
   	@check = Favorite.find_by(post_id: @post_id, user_id: @user.id)
   	if @check
   		flash[:errors] = "already liked!"
-			redirect_to "/posts/#{@post_id}"
+			redirect_to(:back)
   	else
 	  	@like = Favorite.new(favorite_params)
 	  	@like.user_id = @user.id
@@ -32,8 +32,8 @@ class FavoritesController < ApplicationController
   private
   	
   	def set_user
-  		@user = User.find(session[:user_id])
-  	end  	
+  		@user = User.select("id, first_name, last_name, belts, gravatar, summary, created_at").find(session[:user_id])
+  	end
 
   	def favorite_params
   		params.require(:favorite).permit(:post_id)

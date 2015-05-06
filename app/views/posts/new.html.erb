@@ -5,6 +5,7 @@
 		<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
 		<div class="form-group">
 			<label for="title">Title:</label>
+			<em>What's a descriptive name for your algorithm?</em>
 			<input type="text" class="form-control" name="post[title]" id="title">
 		</div>
 		<div class="form-group">
@@ -13,7 +14,8 @@
 		</div>
 		<div class="form-group">
 			<label for="description">Description:</label>
-			<textarea class="form-control" name="post[description]" id="description"></textarea>
+			<em>What does your algorithm do?</em>
+			<textarea class="form-control" rows="6" name="post[description]" id="description"></textarea>
 		</div>
 		<div class="form-group">
 			<label for="difficulty">Difficulty Level:</label>
@@ -26,7 +28,7 @@
 			</select>
 		</div>
 		<div class="form-group">
-			<label for="category">Category Level:</label>
+			<label for="category">Category:</label>
 			<select class="form-control" name="post[category]" id="category">
         <option value="Sort">Sort</option>
         <option value="Array">Array</option>
@@ -44,7 +46,8 @@
 			</select>
 		</div>
 		<div class="pull-right">
-			<input type="submit" class="btn btn-success" value="Create">
+			<a href="/posts" class="btn btn-danger">Cancel</a>
+			<input type="submit" class="btn btn-primary" value="Post Algorithm">
 		</div>
 	</form>
 </div>
