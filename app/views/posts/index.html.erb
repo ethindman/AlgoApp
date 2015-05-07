@@ -5,7 +5,7 @@
       <div class="input-group">
         <input type="text" class="form-control" placeholder="Search for..." name="search">
         <span class="input-group-btn">
-          <button class="btn btn-default" type="submit">Go!</button>
+          <button class="btn btn-default" type="submit" data-disable-with="Searching..">Go!</button>
         </span>
       </div><!-- /input-group -->
     </form>
@@ -27,13 +27,13 @@
               <form action="/followships" method="POST">
                 <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
                 <input type="hidden" name="follow[user_id]" value="<%= post.user_id %>">
-                <input type="submit" value="Follow" class="btn btn-success btn-xs">
+                <input type="submit" value="Follow" class="btn btn-success btn-xs" data-disable-with="Following..">
               </form>
               <% elsif post.user_id != @user.id %>
               <form action="/followships/<%= post.user_id %>" method="POST">
                 <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
                 <input type="hidden" name="_method" value="delete">
-                <input type="submit" value="Unfollow" class="btn btn-success btn-xs">
+                <input type="submit" value="Unfollow" class="btn btn-success btn-xs" data-disable-with="Processing..">
               </form>
             <% end %> 
           </div>
@@ -54,11 +54,10 @@
 <div class="col-md-6">
    <div class="panel panel-primary">
       <div class="panel-heading">
-        <h3 class="panel-title">Today's Algorithm Challenge</h3>
+        <h3 class="panel-title">Welcome to AlgoApp!</h3>
       </div>
       <div class="panel-body">
-        <strong>Sum2One</strong>Take a number's digit and continue summing them until only one digit remains.
-        <a href="">Learn more...</a>
+        Here you can discover creative algorithms, post reviews and get feedback for your own code. Have fun learning and connecting with other developers! 
       </div>
     </div>   
     <div class="panel panel-primary">

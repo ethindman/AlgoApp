@@ -10,7 +10,28 @@
 		</div>
 		<div class="form-group">
 			<label for="code">Code:</label>
-			<textarea class="form-control" rows="10" name="post[code]" id="code"><%= @post.code %></textarea>
+			<div id="editor-edit" style="height: 250px"><%= @post.code %></div>
+			<input type="hidden" name="post[code]" id="codearea" value="">	
+			<script>
+				var editor = ace.edit("editor-edit");
+				var code = editor.getSession().getValue();
+				editor.setTheme("ace/theme/monokai");
+				editor.getSession().setMode("ace/mode/javascript");
+				editor.getSession().setTabSize(4);
+				editor.setHighlightActiveLine(false);
+				editor.setShowPrintMargin(false);
+				editor.getSession().setUseWrapMode(true);
+
+				editor.getSession().on('change', function(e) {
+	    			code = editor.getSession().getValue();
+				});
+
+				$(document).ready(function() {
+					$('#post-edit-button').click(function() {
+					  	$('#codearea').val(code);
+				  	});
+				});
+			</script>
 		</div>
 		<div class="form-group">
 			<label for="description">Description:</label>
@@ -48,7 +69,7 @@
 		</div>
 		<div class="pull-right">
 		<a href="/users" class="btn btn-danger">Cancel</a>
-			<input type="submit" class="btn btn-primary" value="Update">
+			<input type="submit" id="post-edit-button" class="btn btn-primary" value="Update" data-disable-with="Updating..">
 		</div>
 	</form>
 </div>

@@ -75,7 +75,7 @@
 							<form action="/followships/<%= friend.user_id %>" method="POST">
 						    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
 						    <input type="hidden" name="_method" value="delete">
-						    <input type="submit" value="Unfollow" class="btn btn-success btn-xs">
+						    <input type="submit" value="Unfollow" class="btn btn-success btn-xs" data-disable-with="Processing..">
 						  </form>
 						</div>
 				  </div>

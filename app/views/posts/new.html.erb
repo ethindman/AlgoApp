@@ -10,7 +10,28 @@
 		</div>
 		<div class="form-group">
 			<label for="code">Your Code:</label>
-			<textarea class="form-control" rows="12" name="post[code]" id="code"></textarea>
+			<div id="editor-post" style="height: 250px"></div>
+			<input type="hidden" name="post[code]" id="codearea" value="">	
+			<script>
+				var editor = ace.edit("editor-post");
+				var code = editor.getSession().getValue();
+				editor.setTheme("ace/theme/monokai");
+				editor.getSession().setMode("ace/mode/javascript");
+				editor.getSession().setTabSize(4);
+				editor.setHighlightActiveLine(false);
+				editor.setShowPrintMargin(false);
+				editor.getSession().setUseWrapMode(true);
+
+				editor.getSession().on('change', function(e) {
+	    			code = editor.getSession().getValue();
+				});
+
+				$(document).ready(function() {
+					$('#post-button').click(function() {
+					  	$('#codearea').val(code);
+				  	});
+				});
+			</script>
 		</div>
 		<div class="form-group">
 			<label for="description">Description:</label>
@@ -47,7 +68,7 @@
 		</div>
 		<div class="pull-right">
 			<a href="/posts" class="btn btn-danger">Cancel</a>
-			<input type="submit" class="btn btn-primary" value="Post Algorithm">
+			<input type="submit" id="post-button" class="btn btn-primary" value="Post Algorithm" data-disable-with="Posting..">
 		</div>
 	</form>
 </div>
