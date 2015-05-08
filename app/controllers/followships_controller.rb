@@ -1,9 +1,9 @@
 class FollowshipsController < ApplicationController
-  before_action :set_user
+  before_action :current_user
 
   def create
   	@follow = Followship.new(follow_params)
-  	@follow.follower_id = @user.id
+  	@follow.follower_id = @current_user.id
     @id = follow_params[:user_id]
     @thisUser = User.find(@id)
   	if @follow.save
@@ -16,7 +16,7 @@ class FollowshipsController < ApplicationController
   end
 
   def destroy
-	  @check = Followship.find_by(user_id: params[:id], follower_id: @user.id)
+	  @check = Followship.find_by(user_id: params[:id], follower_id: @current_user.id)
 	  @thisUser = User.find(params[:id])
 		if !@check.nil?
 			@check.destroy
@@ -29,11 +29,6 @@ class FollowshipsController < ApplicationController
   end
 
   private
-  	
-  	def set_user
-  		@user = User.select("id, first_name, last_name, belts, gravatar, summary, created_at").find(session[:user_id])
-  	end  	
-
   	def follow_params
   		params.require(:follow).permit(:user_id)
   	end

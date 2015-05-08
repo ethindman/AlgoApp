@@ -1,4 +1,5 @@
 class SessionsController < ApplicationController
+  before_action :require_logged_in, only: [:index, :destroy]
 
   def new
   end
@@ -10,18 +11,14 @@ class SessionsController < ApplicationController
       flash[:errors] = "Invalid Email or Password"
       redirect_to :mains
     else 
-      session[:user_id] = user.id
-      session[:signed_in] = true
-      session[:first_name] = user.first_name
-      session[:last_name] = user.last_name
-      session[:gravatar] = user.gravatar
+      sign_in user
       redirect_to :posts
     end
   end
 
   #logout
   def destroy
-    reset_session
+    sign_out
     redirect_to :mains
   end
   

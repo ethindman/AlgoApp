@@ -1,6 +1,6 @@
 <div class="row">
 	<div class="col-md-12">
-		<% if @post.user_id != @user.id && @favorites.where(user_id: @user.id).empty? %>
+		<% if @post.user_id != @current_user.id && @favorites.where(user_id: @current_user.id).empty? %>
 			<div class="pull-right">
 				<form action="/favorites" method="POST">
 					<input type="hidden" name="favorite[post_id]" value="<%= @post.id %>" >
@@ -10,7 +10,7 @@
 					</button>
 				</form>
 			</div>
-			<% elsif @post.user_id != @user.id %>
+			<% elsif @post.user_id != @current_user.id %>
 			<div class="pull-right">
 				<form action="/favorites/<%= @post.id %>" method="POST">
 					<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
@@ -23,7 +23,7 @@
 			</div>
 		<% end %>
 		<h1><%= @post.title %></h1>
-		<% if @post.user_id == session[:user_id] %>
+		<% if @post.user_id == @current_user.id %>
 			<div class="pull-right">
 				<a href="/posts/<%= @post.id %>/edit" class="btn btn-info">Edit</a>
 			</div>
@@ -35,12 +35,12 @@
 			<em><%= "#{@comments.length} reviews" %></em>
 		<% end %>
 		<h5>Posted by 
-		<% if @current_user.id == @user.id %>
+		<% if @current_user %>
 			<a href="/users">
 		<% else %>
-			<a href="/users/<%= @current_user.id %>">
+			<a href="/users/<%= @user.id %>">
 		<% end %>
-		<%= @current_user.first_name %> <%= @current_user.last_name %></a></h5>
+		<%= @user.first_name %> <%= @user.last_name %></a></h5>
 		<h5>Created on: <%= @post.created_at.to_formatted_s(:long_ordinal)  %></h5>
 		<h5>Difficulty level: <%= @post.difficulty %></h5>
 		<h5>Category: <a href="/mains/<%= @post.category %>"><span class="label label-primary"><%= @post.category %></span></a></h5>
@@ -85,7 +85,7 @@
         <strong>Rating:</strong><br>
         <div class="star-rating" data-score=<%= comment.rating %>></div>
         <i>Posted <%= distance_of_time_in_words(comment.created_at, Time.new()) %> ago</i>
-        <% if comment.user_id == session[:user_id] || @post.user_id == session[:user_id] %>
+        <% if comment.user_id == @current_user.id || @post.user_id == @current_user.id %>
         	<a href="/comments/<%= comment.id %>" data-method="delete">Delete</a>
         <% end %>
       </div>

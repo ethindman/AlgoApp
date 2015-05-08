@@ -2,9 +2,8 @@ class User < ActiveRecord::Base
 	has_many :posts, dependent: :destroy
 	has_many :comments, dependent: :destroy
 	has_many :favorites
-
-	has_many :followships
 	
+	has_many :followships
 	has_many :followers, class_name: "User", foreign_key: "follower_id", through: :followerships
 
 	attr_accessor :password, :password_confirmation

@@ -1,23 +1,23 @@
 <div class="media">
   <div class="media-left">
-    <img class="media-object img-circle" src="<%= @current_user.gravatar %>" alt="gravatar image">
+    <img class="media-object img-circle" src="<%= @user.gravatar %>" alt="gravatar image">
   </div>
   <div class="media-body">
-    <h4 class="media-heading"><%= @current_user.first_name %>'s Profile</h4>
-    <% if @current_user_posts %>
-    	<p>Total Number of Algorithms Posted: <%= @current_user_posts.length %></p>
+    <h4 class="media-heading"><%= @user.first_name %>'s Profile</h4>
+    <% if @user_posts %>
+    	<p>Total Number of Algorithms Posted: <%= @user_posts.length %></p>
     <% end %>
-    <p>Member since: <%= @current_user.created_at.to_formatted_s(:long_ordinal) %></p>
-    <% if @current_user.belts %>
-   		<p>Belts: <%= @current_user.belts %></p>
+    <p>Member since: <%= @user.created_at.to_formatted_s(:long_ordinal) %></p>
+    <% if @user.belts %>
+   		<p>Belts: <%= @user.belts %></p>
    	<% end %>
-   	<% if @current_user.summary %>
-    	<p>Summary: <%= @current_user.summary %></p>
+   	<% if @user.summary %>
+    	<p>Summary: <%= @user.summary %></p>
     <% end %>
   </div>
 </div>
 
-<h4><%= @current_user.first_name %>'s  Algorithms</h4>
+<h4><%= @user.first_name %>'s  Algorithms</h4>
 <table class="table table-bordered">
 	<thead>
 		<tr>
@@ -27,7 +27,7 @@
 		</tr>
 	</thead>
 	<tbody>
-	<% @current_user_posts.each do |post| %>
+	<% @user_posts.each do |post| %>
 		<tr>
 			<td><a href="/posts/<%= post.id %>"><%= post.title %></a></td>
 			<td><%= post.description %></td>

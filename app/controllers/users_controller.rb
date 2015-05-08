@@ -1,11 +1,12 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:index, :edit, :update, :destroy, :favorite]
+  before_action :current_user
+  before_action :require_logged_in, except: [:create]
 
   def index
-    @myPosts = @user.posts
-    @myFavorites = @user.favorites.includes(:post).includes(:user)
-    @myFollowers = @user.followships
-    @myFriends = Followship.where(follower_id: @user.id).includes(:user)
+    @myPosts = @current_user.posts
+    @myFavorites = @current_user.favorites.includes(:post).includes(:user)
+    @myFollowers = @current_user.followships
+    @myFriends = Followship.where(follower_id: @current_user.id).includes(:user)
   end
 
   def new
@@ -21,11 +22,7 @@ class UsersController < ApplicationController
     @user.gravatar = image_src
     
     if @user.save
-      session[:signed_in] = true
-      session[:user_id] = @user.id
-      session[:first_name] = @user.first_name
-      session[:last_name] = @user.last_name
-      session[:gravatar] = @user.gravatar
+      sign_in @user
       flash[:success] = "Login successful!"
       redirect_to :posts
     else
@@ -38,10 +35,10 @@ class UsersController < ApplicationController
   end
 
   def update
-    if @user.update(profile_params)
+    if @current_user.update(profile_params)
       flash[:success] = "Profile updated!"
-      session[:first_name] = @user.first_name
-      session[:last_name] = @user.last_name
+      session[:first_name] = @current_user.first_name
+      session[:last_name] = @current_user.last_name
       redirect_to :users
     else
       flash[:success] = "Something went wrong... Please try again later."
@@ -51,8 +48,8 @@ class UsersController < ApplicationController
 
   def show
     if User.exists?(params[:id])
-      @current_user = User.select("id, first_name, last_name, belts, gravatar, summary, created_at").find(params[:id])
-      @current_user_posts = User.find(params[:id]).posts
+      @user = User.select("id, first_name, last_name, belts, gravatar, summary, created_at").find(params[:id])
+      @user_posts = User.find(params[:id]).posts
     else
       flash[:errors] = "Couldn't find selected user."
       redirect_to :posts
@@ -63,10 +60,6 @@ class UsersController < ApplicationController
   end
 
   private
-    def set_user
-      @user = User.select("id, first_name, last_name, belts, gravatar, summary, created_at, email").find(session[:user_id])
-    end
-
     def user_params
       params.require(:user).permit(:first_name, :last_name, :email, :password, :password_confirmation, :gravatar)
     end

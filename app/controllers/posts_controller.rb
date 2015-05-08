@@ -1,5 +1,6 @@
 class PostsController < ApplicationController
-  before_action :set_user
+  before_action :current_user
+  before_action :require_logged_in
   before_action :set_post, only: [:show, :edit, :update, :destroy]
 
   def index
@@ -11,7 +12,7 @@ class PostsController < ApplicationController
   end
 
   def create
-    @post = @user.posts.create(post_params)
+    @post = @current_user.posts.create(post_params)
     if @post.save
       flash[:success] = "New algorithm added!"
       redirect_to :users
@@ -22,7 +23,7 @@ class PostsController < ApplicationController
   end
 
   def show
-    @current_user = User.select("id, first_name, last_name, belts, gravatar, summary, created_at").find(@post.user_id)
+    @user = User.select("id, first_name, last_name, belts, gravatar, summary, created_at").find(@post.user_id)
     @comments = Post.find(params[:id]).comments.includes(:user).paginate(page: params[:page], per_page: 15)
     @favorites = Post.find(params[:id]).favorites
     
@@ -34,7 +35,7 @@ class PostsController < ApplicationController
   end
 
   def destroy
-    if @post.user_id != @user.id
+    if @post.user_id != @current_user.id
       flash[:errors] = "You can't delete another user's posts."
       redirect_to :users
     else 
@@ -45,7 +46,7 @@ class PostsController < ApplicationController
   end
 
   def edit
-    if @post.user_id != @user.id
+    if @post.user_id != @current_user.id
       flash[:errors] = "You don't have permission to edit this post."
       redirect_to :posts
     else
@@ -54,7 +55,7 @@ class PostsController < ApplicationController
   end
 
   def update
-    if @post.user_id != @user.id
+    if @post.user_id != @current_user.id
       flash[:errors] = "You don't have permission to edit this post."
       redirect_to :posts
     else
@@ -70,10 +71,6 @@ class PostsController < ApplicationController
   end
 
   private
-    def set_user
-      @user = User.select("id, first_name, last_name, belts, gravatar, summary, created_at").find(session[:user_id])
-    end
-
     def set_post
       if Post.exists?(params[:id])
         @post = Post.find(params[:id])

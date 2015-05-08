@@ -1,28 +1,28 @@
 <div class="media">
   <div class="media-left">
-    <img class="media-object img-circle" src="<%= @user.gravatar %>" alt="gravatar image">
+    <img class="media-object img-circle" src="<%= @current_user.gravatar %>" alt="gravatar image">
   </div>
   <div class="media-body">
     <div class="pull-right">
-			<% if @user.id == @user.id %>
-				<%= link_to "Edit profile", edit_user_path(@user), class: "btn btn-danger" %>
+			<% if @current_user %>
+				<%= link_to "Edit profile", edit_user_path(@current_user), class: "btn btn-danger" %>
 			<% end %>
 		</div>
     <h4 class="media-heading">My Profile</h4>
-    <p>Full Name: <%= @user.first_name %> <%= @user.last_name %></p>
+    <p>Full Name: <%= @current_user.first_name %> <%= @current_user.last_name %></p>
     <% if @myFollowers %>
 			<p>Followers: <%= @myFollowers.count %></p>
     <% end %>
-    <p>Member since: <%= @user.created_at.to_formatted_s(:long_ordinal) %></p>
-    <% if !@user.belts && @user.id %>
-    	<%= link_to "Add certifications", edit_user_path(@user) %>
+    <p>Member since: <%= @current_user.created_at.to_formatted_s(:long_ordinal) %></p>
+    <% if !@current_user.belts && @current_user.id %>
+    	<%= link_to "Add certifications", edit_user_path(@current_user) %>
     <% else %>
-    	<p>Belts: <%= @user.belts %></p>
+    	<p>Belts: <%= @current_user.belts %></p>
 		<% end %>
-		<% if !@user.summary && @user.id %>
-    	<%= link_to "Add description", edit_user_path(@user) %>
+		<% if !@current_user.summary && @current_user.id %>
+    	<%= link_to "Add description", edit_user_path(@current_user) %>
     <% else %>
-    	<p>Summary: <%= @user.summary %></p>
+    	<p>Summary: <%= @current_user.summary %></p>
     <% end %>
   </div>
 </div>

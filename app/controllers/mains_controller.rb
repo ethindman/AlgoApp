@@ -1,6 +1,6 @@
 class MainsController < ApplicationController
   def index
-    if session[:signed_in] == true
+    if signed_in?
       redirect_to :posts
     end
   end
@@ -26,6 +26,4 @@ class MainsController < ApplicationController
     end
   end
 
-  def destroy
-  end
 end
