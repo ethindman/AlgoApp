@@ -40,7 +40,7 @@
 			<h5>Looks like you haven't uploaded any Algorithms yet...</h5>
 			<%= link_to "Post your first algorithm!", new_post_path, class: "btn btn-info" %>
 		<% else %>
-			<table class="table table-bordered">
+			<table class="table table-hover">
 				<thead>
 					<tr>
 						<th>Title</th>
@@ -67,17 +67,23 @@
 		<br>
 		<br>
 
-		<h3>Algorithms I Like</h3>
+		<div class="panel panel-info">
+      <div class="panel-heading">
+        <h3 class="panel-title">Algorithms I Like</h3>
+      </div>
 		<% if @myFavorites.length == 0 %>
 			<h5>Looks like you haven't liked any algorithms yet... Why not explore the site and find some?</h5>
 		<% else %>
-		<div class="list-group">
-			<% @myFavorites.each do |favorite| %>
-			  <a href="/posts/<%= favorite.post.id %>" class="list-group-item">
-			  <%= favorite.post.title %> <i>Posted by <%= favorite.post.user.first_name %> <%= favorite.post.user.last_name %> on <%= favorite.post.created_at.to_formatted_s(:long_ordinal) %></i>
-			  </a>
-			<% end %>
-		</div>
+	    <div class="panel-body">
+				<div class="list-group">
+					<% @myFavorites.each do |favorite| %>
+					  <a href="/posts/<%= favorite.post.id %>" class="list-group-item">
+					  <%= favorite.post.title %> <i>Posted by <%= favorite.post.user.first_name %> <%= favorite.post.user.last_name %> on <%= favorite.post.created_at.to_formatted_s(:long_ordinal) %></i>
+					  </a>
+					<% end %>
+				</div>
+	    </div>
+    </div>
 		<% end %>
 	</div>
 	<div class="col-md-6">
@@ -110,16 +116,6 @@
 	</div>
 </div>
 
-
-
-
-
-
-
-
-
-
-
 <script>
 	$(document).ready(function() {
 		$('a#post-data').on('click', function() {
@@ -128,5 +124,18 @@
 			$('a#destroy').attr('href', '/posts/'+id);
 			$('h4.modal-title').html('Delete '+title+'?');
 		});
+		$('.follow-btn').mouseenter(function() {
+		  $(this).removeClass('btn-success');
+		  $(this).addClass('btn-warning');
+		  $(this).val('Unfollow');
+		});
+		$('.follow-btn').mouseleave(function() {
+		  $(this).removeClass('btn-warning');
+		  $(this).addClass('btn-success');
+		  $(this).val('Following');
+		});
 	});
 </script>
+
+
+

@@ -19,16 +19,3 @@
 //= require ace/worker-html
 //= require ace/theme-monokai
 //= require ace/mode-javascript
-
-$(document).ready(function(){ 
-	$('.follow-btn').mouseenter(function() {
-	  $(this).removeClass('btn-success');
-	  $(this).addClass('btn-warning');
-	  $(this).val('Unfollow');
-	});
-$('.follow-btn').mouseleave(function() {
-	  $(this).removeClass('btn-warning');
-	  $(this).addClass('btn-success');
-	  $(this).val('Following');
-	});
-});
