@@ -2,7 +2,7 @@ Rails.application.routes.draw do
 
   root 'mains#index'
   get 'logout' => 'sessions#destroy'
-  get 'search' => 'mains#search'
+  get 'search' => 'mains#show'
 
   resources :users, :posts
   resources :mains, only: [:index, :show]

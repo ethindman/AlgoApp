@@ -1,119 +1,72 @@
-<div class="media">
-  <div class="media-left">
-    <img class="media-object img-circle" src="<%= @current_user.gravatar %>" alt="gravatar image">
-  </div>
-  <div class="media-body">
-    <div class="pull-right">
-			<% if @current_user %>
-				<%= link_to "Edit profile", edit_user_path(@current_user), class: "btn btn-danger" %>
-			<% end %>
-		</div>
-    <h4 class="media-heading">My Profile</h4>
-    <p>Full Name: <%= @current_user.first_name %> <%= @current_user.last_name %></p>
-    <% if @myFollowers %>
-			<p>Followers: <%= @myFollowers.count %></p>
-    <% end %>
-    <p>Member since: <%= @current_user.created_at.to_formatted_s(:long_ordinal) %></p>
-    <% if !@current_user.belts && @current_user.id %>
-    	<%= link_to "Add certifications", edit_user_path(@current_user) %>
-    <% else %>
-    	<p>Belts: <%= @current_user.belts %></p>
-		<% end %>
-		<% if !@current_user.summary && @current_user.id %>
-    	<%= link_to "Add description", edit_user_path(@current_user) %>
-    <% else %>
-    	<p>Summary: <%= @current_user.summary %></p>
-    <% end %>
-  </div>
-</div>
-
-<h3>My Algorithms</h3>
-<% if @myPosts.length == 0 %>
-	<h5>Looks like you haven't uploaded any Algorithms yet...</h5>
-	<%= link_to "Post first algorithm!", new_post_path, class: "btn btn-info" %>
-<% else %>
-	<table class="table table-bordered">
-		<thead>
-			<tr>
-				<th>Title</th>
-				<th>Description</th>
-				<th>Created On</th>
-				<th>Delete</th>
-				<th>Update</th>
-			</tr>
-		</thead>
-		<tbody>
-		<% @myPosts.each do |post| %>
-			<tr>
-				<td><a href="/posts/<%= post.id %>"><%= post.title %></a></td>
-				<td><%= post.description %></td>
-				<td><%= post.created_at.to_formatted_s(:long) %></td>			
-				<td><a href="" id="post-data" data-id="<%= post.id %>" data-title="<%= post.title %>" data-toggle="modal" data-target="#confirm-destroy">Delete</a></td>
-				<td><a href="/posts/<%= post.id %>/edit">Edit</a></td>
-			</tr>
-			<% end %>
-		</tbody>
-	</table>
-<% end %>
-
-<!-- Modal -->
-<div class="modal fade" id="confirm-destroy" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel"></h4>
-      </div>
-      <div class="modal-body">
-        Are you sure you want to delete this algorithm? Deleted algorithms can't be recovered..
-      </div>
-      <div class="modal-footer">
-        <a href="" id="destroy" data-method="delete">
-        	<button type="button"  class="btn btn-primary">
-						<span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Yes, Delete My Algorithm
-					</button>
-        </a>
-        <button type="button" class="btn btn-danger" data-dismiss="modal">
-        	<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>	Cancel
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<br>
-<br>
+<%= render 'layouts/modal' %>
 
 <div class="row">
-	<div class="col-md-4">
-		<h3>People I'm Following</h3>
-		<% if @myFriends.length == 0 %>
-			<h5>Looks like you aren't following anybody yet...</h5>
+	<div class="col-md-6">
+		<div class="media">
+		  <div class="media-left">
+		    <img class="media-object thumbnail" src="<%= @current_user.gravatar %>" alt="gravatar image">
+		  </div>
+		  <div class="media-body">
+		    <h4 class="media-heading">
+		    	<%= [@current_user.first_name, @current_user.last_name].join(" ") %>
+		    	<span>
+			    	<% if @current_user %>
+							<%= link_to "Edit profile", edit_user_path(@current_user) %>
+						<% end %>
+		    	</span>
+		    </h4>
+		    <% if @myFollowers %>
+					<p>Followers: <%= @myFollowers.count %></p>
+		    <% end %>
+		    <p>Member since: <%= @current_user.created_at.strftime("%B %d, %Y") %></p>
+		    <% if !@current_user.belts && @current_user.id %>
+		    	<%= link_to "Add certifications", edit_user_path(@current_user) %>
+		    <% else %>
+		    	<p>Belts: <%= @current_user.belts %></p>
+				<% end %>
+				<% if !@current_user.summary && @current_user.id %>
+		    	<%= link_to "Add description", edit_user_path(@current_user) %>
+		    <% else %>
+		    	<p>Summary: <%= @current_user.summary %></p>
+		    <% end %>
+		  </div>
+		</div>
+	
+		<br>
+		<br>
+
+		<h3>My Algorithms</h3>
+		<% if @myPosts.length == 0 %>
+			<h5>Looks like you haven't uploaded any Algorithms yet...</h5>
+			<%= link_to "Post your first algorithm!", new_post_path, class: "btn btn-info" %>
 		<% else %>
-			<% @myFriends.each do |friend| %>
-				<div class="media">
-				  <div class="media-left">
-				    <a href="/users/<%= friend.user_id %>">
-				      <img class="media-object img-circle" id="profile-pic" src="<%= friend.user.gravatar %>" alt="Profile image">
-				    </a>
-				    <div class="text-center">
-							<form action="/followships/<%= friend.user_id %>" method="POST">
-						    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-						    <input type="hidden" name="_method" value="delete">
-						    <input type="submit" value="Unfollow" class="btn btn-success btn-xs" data-disable-with="Processing..">
-						  </form>
-						</div>
-				  </div>
-				  <div class="media-body">
-				    <a href="/users/<%= friend.user_id %>"><h4 class="media-heading"><%= friend.user.first_name %> <%= friend.user.last_name %></h4></a>
-				    <p><%=h truncate(friend.user.summary, :length => 60) %></p>
-				    <i>Member since: <%= friend.user.created_at %> </i>
-				  </div>
-				</div>
-			<% end %>
+			<table class="table table-bordered">
+				<thead>
+					<tr>
+						<th>Title</th>
+						<th>Description</th>
+						<th>Created On</th>
+						<th>Delete</th>
+						<th>Update</th>
+					</tr>
+				</thead>
+				<tbody>
+				<% @myPosts.each do |post| %>
+					<tr>
+						<td><a href="/posts/<%= post.id %>"><%= post.title %></a></td>
+						<td><%= post.description %></td>
+						<td><%= post.created_at.to_formatted_s(:long) %></td>			
+						<td><a href="" id="post-data" data-id="<%= post.id %>" data-title="<%= post.title %>" data-toggle="modal" data-target="#confirm-destroy">Delete</a></td>
+						<td><a href="/posts/<%= post.id %>/edit">Edit</a></td>
+					</tr>
+					<% end %>
+				</tbody>
+			</table>
 		<% end %>
-	</div>
-	<div class="col-md-8">
+		
+		<br>
+		<br>
+
 		<h3>Algorithms I Like</h3>
 		<% if @myFavorites.length == 0 %>
 			<h5>Looks like you haven't liked any algorithms yet... Why not explore the site and find some?</h5>
@@ -127,7 +80,45 @@
 		</div>
 		<% end %>
 	</div>
+	<div class="col-md-6">
+		<h4>People I'm Following</h4>
+		<% if @myFriends.length == 0 %>
+			<h5>Looks like you aren't following anybody yet...</h5>
+		<% else %>
+			<% @myFriends.each do |friend| %>
+				<div class="media">
+				  <div class="media-left">
+				    <a href="/users/<%= friend.user_id %>">
+				      <img class="media-object img-circle" id="profile-pic" src="<%= friend.user.gravatar %>" alt="Profile image">
+				    </a>
+				    <div class="text-center">
+							<form action="/followships/<%= friend.user_id %>" method="POST">
+						    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+						    <input type="hidden" name="_method" value="delete">
+						    <input type="submit" value="Following" class="btn btn-success btn-xs follow-btn" data-disable-with="Processing..">
+						  </form>
+						</div>
+				  </div>
+				  <div class="media-body">
+				    <a href="/users/<%= friend.user_id %>"><h4 class="media-heading"><%= friend.user.first_name %> <%= friend.user.last_name %></h4></a>
+				    <p><%=h truncate(friend.user.summary, :length => 60) %></p>
+				    <i>Member since: <%= friend.user.created_at %> </i>
+				  </div>
+				</div>
+			<% end %>
+		<% end %>		
+	</div>
 </div>
+
+
+
+
+
+
+
+
+
+
 
 <script>
 	$(document).ready(function() {

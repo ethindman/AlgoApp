@@ -34,7 +34,9 @@ class UsersController < ApplicationController
   def show
     if User.exists?(params[:id])
       @user = User.select("id, first_name, last_name, belts, gravatar, summary, created_at").find(params[:id])
-      @user_posts = User.find(params[:id]).posts
+      @user_posts = @user.posts
+      @followers = @user.followships
+      @following = @user.followships.find_by(follower_id: @current_user.id)
     else
       flash[:errors] = "Couldn't find selected user."
       redirect_to :posts

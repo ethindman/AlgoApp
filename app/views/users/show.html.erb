@@ -1,13 +1,32 @@
+<div class="pull-right">
+  <% if @user.id != @current_user.id && @following.nil? %>
+    <form action="/followships" method="POST">
+      <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+      <input type="hidden" name="follow[user_id]" value="<%= @user.id %>">
+      <input type="submit" value="Follow" class="btn btn-success" data-disable-with="Following..">
+    </form>
+    <% elsif @user.id != @current_user.id %>
+    <form action="/followships/<%= @user.id %>" method="POST">
+      <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+      <input type="hidden" name="_method" value="delete">
+      <input type="submit" value="Following" class="btn btn-success follow-btn" data-disable-with="Processing..">
+    </form>
+  <% end %> 
+</div>
+
 <div class="media">
   <div class="media-left">
     <img class="media-object img-circle" src="<%= @user.gravatar %>" alt="gravatar image">
   </div>
   <div class="media-body">
     <h4 class="media-heading"><%= @user.first_name %>'s Profile</h4>
-    <% if @user_posts %>
-    	<p>Total Number of Algorithms Posted: <%= @user_posts.length %></p>
+    <% if @followers %>
+    	<p>Followers: <%= @followers.length %></p>
     <% end %>
-    <p>Member since: <%= @user.created_at.to_formatted_s(:long_ordinal) %></p>
+    <% if @user_posts %>
+    	<p>Algorithms Posted: <%= @user_posts.length %></p>
+    <% end %>
+    <p>Member since: <%= @user.created_at.strftime("%B %d, %Y") %></p>
     <% if @user.belts %>
    		<p>Belts: <%= @user.belts %></p>
    	<% end %>

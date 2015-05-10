@@ -1,4 +1,6 @@
 class MainsController < ApplicationController
+  before_action :current_user, only: [:show]
+
   def index
     if signed_in?
       redirect_to :posts
@@ -6,7 +8,7 @@ class MainsController < ApplicationController
   end
 
   def show
-    @posts
+    @followships = Followship.all
     if params[:search]
       @posts = Post.where("title LIKE ? OR description LIKE ?", "%#{params[:search]}%", "%#{params[:search]}%")
     else

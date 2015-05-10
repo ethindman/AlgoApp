@@ -22,12 +22,14 @@
 				</form>
 			</div>
 		<% end %>
-		<h1><%= @post.title %></h1>
 		<% if @post.user_id == @current_user.id %>
 			<div class="pull-right">
-				<a href="/posts/<%= @post.id %>/edit" class="btn btn-info">Edit</a>
+				<a href="/posts/<%= @post.id %>/edit" class="btn btn-info">
+						Edit Post
+				</a>
 			</div>
 		<% end %>
+		<h1><%= @post.title %></h1>
 		<div class="star-rating" data-score= <%= @avg_review %> ></div>
 		<% if @comments.length < 1 %>
 			<em>No reviews yet...</em>
@@ -35,12 +37,12 @@
 			<em><%= "#{@comments.length} reviews" %></em>
 		<% end %>
 		<h5>Posted by 
-		<% if @current_user %>
+		<% if @post.user_id == @current_user.id %>
 			<a href="/users">
 		<% else %>
 			<a href="/users/<%= @user.id %>">
 		<% end %>
-		<%= @user.first_name %> <%= @user.last_name %></a></h5>
+		<%= [@user.first_name, @user.last_name].join(" ") %></a></h5>
 		<h5>Created on: <%= @post.created_at.to_formatted_s(:long_ordinal)  %></h5>
 		<h5>Difficulty level: <%= @post.difficulty %></h5>
 		<h5>Category: <a href="/mains/<%= @post.category %>"><span class="label label-primary"><%= @post.category %></span></a></h5>

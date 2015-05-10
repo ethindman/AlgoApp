@@ -1,4 +1,4 @@
-<h1>Update your Profile</h1>
+<h1><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Update your Profile </h1>
 <div class="col-md-6">
 	<form action="/users/<%= @current_user.id %>" method="POST">
 	  <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
@@ -22,8 +22,14 @@
 		  <textarea class="form-control" rows="10" name="profile[summary]"><%= @current_user.summary %></textarea>
 		</div>
 		<div class="pull-right">
-	  	<a href="/users" class="btn btn-danger">Cancel</a>
-	  	<input type="submit" class="btn btn-primary" value="Update" data-disable-with="Updating..">	
+	  	<a href="/users">
+	  		<button class="btn btn-danger">
+	  			<span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Cancel	  			
+	  		</button>
+	  	</a>
+	  	<button class="btn btn-primary" data-disable-with="Updating..">
+	  		<span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Update
+			</button>
 		</div>
 	</form>
 </div>
