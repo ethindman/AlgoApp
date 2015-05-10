@@ -31,15 +31,13 @@ module SessionsHelper
   end
 
   def deny_access
-    flash[:errors] = "Please sign in to access this page"
+    flash[:errors] = "Please sign in to access this page."
     redirect_to :mains
   end
 
-  def require_logged_in
+  def require_signed_in
     if !signed_in?
-      flash[:errors] = "Please sign in"
-      redirect_to :mains
+      deny_access
     end
   end
-
 end

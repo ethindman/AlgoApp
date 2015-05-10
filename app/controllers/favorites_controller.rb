@@ -1,14 +1,15 @@
 class FavoritesController < ApplicationController
-  before_action :set_user
+  before_action :current_user
+  before_action :require_signed_in
 
   def create
-  	@check = Favorite.find_by(post_id: @post_id, user_id: @user.id)
+  	@check = Favorite.find_by(post_id: @post_id, user_id: @current_user.id)
   	if @check
   		flash[:errors] = "already liked!"
 			redirect_to(:back)
   	else
 	  	@like = Favorite.new(favorite_params)
-	  	@like.user_id = @user.id
+	  	@like.user_id = @current_user.id
 	  	if @like.save
 	  		redirect_to(:back)
 	  	else 
@@ -19,7 +20,7 @@ class FavoritesController < ApplicationController
   end
 
   def destroy
-    @check = Favorite.find_by(post_id: params[:id], user_id: @user.id )
+    @check = Favorite.find_by(post_id: params[:id], user_id: @current_user.id )
     if !@check.nil?
       @check.destroy
     	redirect_to(:back)
@@ -30,13 +31,7 @@ class FavoritesController < ApplicationController
   end
 
   private
-  
-  	def set_user
-  		@user = User.select("id, first_name, last_name, belts, gravatar, summary, created_at").find(session[:user_id])
-  	end
-
   	def favorite_params
   		params.require(:favorite).permit(:post_id)
   	end
-
 end

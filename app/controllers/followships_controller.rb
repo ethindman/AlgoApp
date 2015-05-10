@@ -1,5 +1,6 @@
 class FollowshipsController < ApplicationController
   before_action :current_user
+  before_action :require_signed_in
 
   def create
   	@follow = Followship.new(follow_params)

@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :current_user
-  before_action :require_logged_in, except: [:create]
+  before_action :require_signed_in, except: [:create]
 
   def index
     @myPosts = @current_user.posts
@@ -31,6 +31,16 @@ class UsersController < ApplicationController
     end
   end
 
+  def show
+    if User.exists?(params[:id])
+      @user = User.select("id, first_name, last_name, belts, gravatar, summary, created_at").find(params[:id])
+      @user_posts = User.find(params[:id]).posts
+    else
+      flash[:errors] = "Couldn't find selected user."
+      redirect_to :posts
+    end
+  end
+
   def edit
   end
 
@@ -43,16 +53,6 @@ class UsersController < ApplicationController
     else
       flash[:success] = "Something went wrong... Please try again later."
       redirect_to :users
-    end
-  end
-
-  def show
-    if User.exists?(params[:id])
-      @user = User.select("id, first_name, last_name, belts, gravatar, summary, created_at").find(params[:id])
-      @user_posts = User.find(params[:id]).posts
-    else
-      flash[:errors] = "Couldn't find selected user."
-      redirect_to :posts
     end
   end
 

@@ -1,8 +1,5 @@
 class SessionsController < ApplicationController
-  before_action :require_logged_in, only: [:index, :destroy]
-
-  def new
-  end
+  before_action :require_signed_in, except: [:create]
 
   #login
   def create
@@ -21,5 +18,4 @@ class SessionsController < ApplicationController
     sign_out
     redirect_to :mains
   end
-  
 end

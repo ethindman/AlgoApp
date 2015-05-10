@@ -1,6 +1,6 @@
 class PostsController < ApplicationController
   before_action :current_user
-  before_action :require_logged_in
+  before_action :require_signed_in
   before_action :set_post, only: [:show, :edit, :update, :destroy]
 
   def index
@@ -34,17 +34,6 @@ class PostsController < ApplicationController
     end
   end
 
-  def destroy
-    if @post.user_id != @current_user.id
-      flash[:errors] = "You can't delete another user's posts."
-      redirect_to :users
-    else 
-      @post.destroy
-      flash[:success] = "Your algorithm was successfully deleted!"
-      redirect_to :users
-    end
-  end
-
   def edit
     if @post.user_id != @current_user.id
       flash[:errors] = "You don't have permission to edit this post."
@@ -70,6 +59,17 @@ class PostsController < ApplicationController
     end
   end
 
+  def destroy
+    if @post.user_id != @current_user.id
+      flash[:errors] = "You can't delete another user's posts."
+      redirect_to :users
+    else 
+      @post.destroy
+      flash[:success] = "Your algorithm was successfully deleted!"
+      redirect_to :users
+    end
+  end
+
   private
     def set_post
       if Post.exists?(params[:id])
@@ -82,5 +82,4 @@ class PostsController < ApplicationController
     def post_params
      params.require(:post).permit(:title, :code, :description, :difficulty, :category)
     end
-
 end
