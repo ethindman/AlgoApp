@@ -48,13 +48,38 @@
 				<td><a href="/posts/<%= post.id %>"><%= post.title %></a></td>
 				<td><%= post.description %></td>
 				<td><%= post.created_at.to_formatted_s(:long) %></td>			
-				<td><a href="/posts/<%= post.id %>" data-method="delete">Delete</a></td>
+				<td><a href="" id="post-data" data-id="<%= post.id %>" data-title="<%= post.title %>" data-toggle="modal" data-target="#confirm-destroy">Delete</a></td>
 				<td><a href="/posts/<%= post.id %>/edit">Edit</a></td>
 			</tr>
 			<% end %>
 		</tbody>
 	</table>
 <% end %>
+
+<!-- Modal -->
+<div class="modal fade" id="confirm-destroy" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel"></h4>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete this algorithm? Deleted algorithms can't be recovered..
+      </div>
+      <div class="modal-footer">
+        <a href="" id="destroy" data-method="delete">
+        	<button type="button"  class="btn btn-primary">
+						<span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Yes, Delete My Algorithm
+					</button>
+        </a>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">
+        	<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>	Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <br>
 <br>
@@ -104,3 +129,13 @@
 	</div>
 </div>
 
+<script>
+	$(document).ready(function() {
+		$('a#post-data').on('click', function() {
+			var id = $(this).attr('data-id');
+			var title = $(this).attr('data-title');
+			$('a#destroy').attr('href', '/posts/'+id);
+			$('h4.modal-title').html('Delete '+title+'?');
+		});
+	});
+</script>
