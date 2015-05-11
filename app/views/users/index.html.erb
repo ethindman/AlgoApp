@@ -1,7 +1,7 @@
 <%= render 'layouts/modal' %>
 
 <div class="row">
-	<div class="col-md-6">
+	<div class="col-md-8">
 		<div class="media">
 		  <div class="media-left">
 		    <img class="media-object thumbnail" src="<%= @current_user.gravatar %>" alt="gravatar image">
@@ -31,43 +31,51 @@
 		    <% end %>
 		  </div>
 		</div>
-	
-		<br>
-		<br>
 
-		<h3>My Algorithms</h3>
-		<% if @myPosts.length == 0 %>
-			<h5>Looks like you haven't uploaded any Algorithms yet...</h5>
-			<%= link_to "Post your first algorithm!", new_post_path, class: "btn btn-info" %>
-		<% else %>
-			<table class="table table-hover">
-				<thead>
-					<tr>
-						<th>Title</th>
-						<th>Description</th>
-						<th>Created On</th>
-						<th>Delete</th>
-						<th>Update</th>
-					</tr>
-				</thead>
-				<tbody>
-				<% @myPosts.each do |post| %>
-					<tr>
-						<td><a href="/posts/<%= post.id %>"><%= post.title %></a></td>
-						<td><%= post.description %></td>
-						<td><%= post.created_at.to_formatted_s(:long) %></td>			
-						<td><a href="" id="post-data" data-id="<%= post.id %>" data-title="<%= post.title %>" data-toggle="modal" data-target="#confirm-destroy">Delete</a></td>
-						<td><a href="/posts/<%= post.id %>/edit">Edit</a></td>
-					</tr>
-					<% end %>
-				</tbody>
-			</table>
-		<% end %>
+		<br>
+		
+		<div class="panel panel-primary">
+      <div class="panel-heading">
+        <h3 class="panel-title">My Algorithms</h3>
+      </div>
+      <div class="panel-body">
+				<% if @myPosts.length == 0 %>
+					<h5>Looks like you haven't uploaded any Algorithms yet...</h5>
+					<%= link_to "Post your first algorithm!", new_post_path, class: "btn btn-info" %>
+				<% else %>
+					<table class="table table-hover table-condensed">
+						<thead>
+							<tr>
+								<th>Title</th>
+								<th>Description</th>
+								<th>Created On</th>
+								<th>Delete</th>
+								<th>Update</th>
+							</tr>
+						</thead>
+						<tbody>
+						<% @myPosts.each do |post| %>
+							<tr>
+								<td><a href="/posts/<%= post.id %>"><%= post.title %></a></td>
+								<td><%= post.description %></td>
+								<td><%= post.created_at.strftime("%B %d, %Y") %></td>			
+								<td class="text-center">
+									<a href="" id="post-data" data-id="<%= post.id %>" data-title="<%= post.title %>" data-toggle="modal" data-target="#confirm-destroy" class="btn btn-danger btn-xs">Delete</a>
+								</td>
+								<td class="text-center">
+									<a href="/posts/<%= post.id %>/edit" class="btn btn-info btn-xs">Edit</a>
+								</td>
+							</tr>
+							<% end %>
+						</tbody>
+					</table>
+				<% end %>
+			</div>
+    </div>
 		
 		<br>
-		<br>
 
-		<div class="panel panel-info">
+		<div class="panel panel-primary">
       <div class="panel-heading">
         <h3 class="panel-title">Algorithms I Like</h3>
       </div>
@@ -78,7 +86,8 @@
 				<div class="list-group">
 					<% @myFavorites.each do |favorite| %>
 					  <a href="/posts/<%= favorite.post.id %>" class="list-group-item">
-					  <%= favorite.post.title %> <i>Posted by <%= favorite.post.user.first_name %> <%= favorite.post.user.last_name %> on <%= favorite.post.created_at.to_formatted_s(:long_ordinal) %></i>
+					  <img src="<%= favorite.post.user.gravatar %>" class="img-circle" id="navbar-pic" alt="user image">
+					  <%= favorite.post.title %> <i>Posted by <%= favorite.post.user.first_name %> <%= favorite.post.user.last_name %> on <%= favorite.post.created_at.strftime("%B %d, %Y") %></i>
 					  </a>
 					<% end %>
 				</div>
@@ -86,7 +95,7 @@
     </div>
 		<% end %>
 	</div>
-	<div class="col-md-6">
+	<div class="col-md-4">
 		<h4>People I'm Following</h4>
 		<% if @myFriends.length == 0 %>
 			<h5>Looks like you aren't following anybody yet...</h5>
@@ -108,7 +117,7 @@
 				  <div class="media-body">
 				    <a href="/users/<%= friend.user_id %>"><h4 class="media-heading"><%= friend.user.first_name %> <%= friend.user.last_name %></h4></a>
 				    <p><%=h truncate(friend.user.summary, :length => 60) %></p>
-				    <i>Member since: <%= friend.user.created_at %> </i>
+				    <i>Member since: <%= friend.user.created_at.strftime("%B %d, %Y") %> </i>
 				  </div>
 				</div>
 			<% end %>
