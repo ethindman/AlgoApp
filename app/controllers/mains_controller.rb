@@ -7,6 +7,9 @@ class MainsController < ApplicationController
     end
   end
 
+  def welcome    
+  end
+
   def show
     @followships = Followship.all
     if params[:search]

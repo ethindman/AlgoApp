@@ -23,9 +23,11 @@ class UsersController < ApplicationController
     
     if @user.save
       sign_in @user
-      flash[:success] = "Login successful!"
-      redirect_to :posts
+      flash[:success] = "Thank you for registering! Please enjoy the app!"
+      redirect_to :welcome
     else
+      
+
       flash[:errors_array] = @user.errors.full_messages
       redirect_to :mains
     end
@@ -43,17 +45,38 @@ class UsersController < ApplicationController
     end
   end
 
+  def change_password  
+  end
+
+  def update_password
+    if password_params[:new_password] != password_params[:confirmation]
+      flash[:errors] = "New Password and Confirm Password Fields do not match. Please try again."
+      redirect_to(:back)
+    else
+      user = User.authenticate(@current_user.email, password_params[:curr_password])
+      if user.nil? 
+        flash[:errors] = "Current Password field does not match records."
+        redirect_to(:back)
+      else 
+        hash_key = Digest::SHA2.hexdigest("#{Time.now.utc}--#{password_params[:new_password]}")
+        pass = Digest::SHA2.hexdigest("#{hash_key}--#{password_params[:new_password]}")
+        user.update(encrypted_password: pass, hash_key: hash_key)
+        flash[:success] = "Password Succesffully Updated!"
+        redirect_to(:back)
+      end
+    end
+  end
+
   def edit
   end
 
   def update
     if @current_user.update(profile_params)
       flash[:success] = "Profile updated!"
-      session[:first_name] = @current_user.first_name
-      session[:last_name] = @current_user.last_name
+      session[:user_name] = [@current_user.first_name, @current_user.last_name].join(" ")
       redirect_to :users
     else
-      flash[:success] = "Something went wrong... Please try again later."
+      flash[:errors] = "Something went wrong... Please try again later."
       redirect_to :users
     end
   end
@@ -68,6 +91,10 @@ class UsersController < ApplicationController
 
     def profile_params
       params.require(:profile).permit(:first_name, :last_name, :belts, :summary)
+    end
+
+    def password_params
+      params.require(:password).permit(:curr_password, :new_password, :confirmation)
     end
 
 end

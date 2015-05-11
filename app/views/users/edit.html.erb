@@ -1,5 +1,5 @@
-<h1><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Update your Profile </h1>
 <div class="col-md-6">
+<h1>Update your Profile </h1>
 	<form action="/users/<%= @current_user.id %>" method="POST">
 	  <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
 	  <input type="hidden" name="_method" value="put">
@@ -12,12 +12,12 @@
 	 	  <input type="text" class="form-control" name="profile[last_name]" value="<%= @current_user.last_name %>">
 		</div>
 		<div class="form-group">
-	  	<label>Belts</label>
+	  	<label>Belts:</label>
 	  	<em>And other certifications</em>
 		  <input type="text" class="form-control" name="profile[belts]" value="<%= @current_user.belts %>">
 		</div>
 		<div class="form-group">
-			<label>Description</label>
+			<label>Description:</label>
 	  	<em>A short summary of yourself</em>
 		  <textarea class="form-control" rows="10" name="profile[summary]"><%= @current_user.summary %></textarea>
 		</div>
