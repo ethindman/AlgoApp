@@ -8,7 +8,7 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-  <%= render 'layouts/header' %>  
+  <%= render 'layouts/header' %>
   <% if flash[:errors_array] %>
     <div class="bs-example bs-example-standalone" data-example-id="dismissible-alert-js">
       <div class="alert alert-warning alert-dismissible fade in" role="alert">
@@ -40,6 +40,17 @@
 	<div class="container">
 		<%= yield %>
 	</div>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <div class="container">
+  	<div class="row">
+  		<%= render 'layouts/footer' %>
+  	</div>
+  </div>
 
 </body>
 </html>

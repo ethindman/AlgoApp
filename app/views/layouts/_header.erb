@@ -17,7 +17,8 @@
     <div id="navbar" class="navbar-collapse collapse">
       <% if signed_in? %>
       <ul class="nav navbar-nav">
-        <li><a href="/posts/new">Post New Algorithm</a></li>
+        <li><a href="/posts/new">Post Algorithm</a></li>
+        <li><a href="/all_users">Discover Users</a></li>
       </ul>
       <% end %>
       <% if !signed_in? %>
@@ -39,7 +40,9 @@
             <img src="<%= session[:gravatar] %>" class="img-circle" id="navbar-pic" alt="user image">
             <%= session[:user_name] %><span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
-              <li><a href="/users">Account</a></li>
+              <li><a href="/users">My Profile</a></li>
+        <li><a href="/posts/new">Post Algorithm</a></li>
+        <li><a href="/all_users">Discover Users</a></li>
               <li class="divider"></li>
               <li><a href="/change_password">Change Password</a></li>
               <li><a href="/logout">Logout</a></li>

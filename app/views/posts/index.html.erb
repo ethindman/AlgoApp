@@ -1,63 +1,23 @@
 <div class="col-md-6">
   <div class="row">
-  <div class="col-lg-12">
-    <form action="/search">
-      <div class="input-group">
-        <input type="text" class="form-control" placeholder="Search for..." name="search">
-        <span class="input-group-btn">
-          <button class="btn btn-default" type="submit" data-disable-with="Searching..">Go!</button>
-        </span>
-      </div><!-- /input-group -->
-    </form>
-  </div><!-- /.col-lg-6 -->
+    <div class="col-lg-12">
+      <form action="/search">
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="Search for..." name="search">
+          <span class="input-group-btn">
+            <button class="btn btn-default" type="submit" data-disable-with="Searching..">Go!</button>
+          </span>
+        </div><!-- /input-group -->
+      </form>
+    </div><!-- /.col-lg-12 -->
+  </div>
+
+  <h3>Algorithm Feed</h3>
+  <em>Featuring the latest algorithms posted by developers near and far..</em>
+  <%= render 'layouts/posts' %>
 </div>
-<h3>Your Algorithm Feed</h3>
-<em>Featuring the latest algorithms from the people you're following..</em>
-	<% @posts.each do |post| %>
-    <div class="media">
-      <div class="media-left">
-        <% if post.user_id == @current_user.id %>
-          <a href="/users">
-        <% else %>
-          <a href="/users/<%= post.user_id %>">
-        <% end %>
-            <img class="media-object img-circle" id="profile-pic" src="<%= post.user.gravatar %>" alt="Generic placeholder image">
-          </a>
-      </div>
-      <div class="media-body">
-        <a href="/posts/<%= post.id %>"><h4 class="media-heading"><%= post.title %></h4></a>
-        <%=h truncate(post.description, :length => 60) %><br>
-        <em>Posted by <strong><a href="/users/<%= post.user.id %>"><%= [post.user.first_name, post.user.last_name].join(" ") %></strong></a> about <%= distance_of_time_in_words(post.created_at, Time.new()) %> ago </em>
-        <a href="/mains/<%= post.category %>"><span class="label label-primary"><%= post.category %></span></a>
-      </div>
-    </div>
-    <hr>
-		<% end %>
-    <div class="text-center">
-      <%= will_paginate @posts, renderer: BootstrapPagination::Rails, previous_label: "Previous", next_label: "Next", inner_window: 1, outer_window: 0 %>    
-    </div>
-</div>
+
 <div class="col-md-6">
-   <div class="panel panel-primary">
-      <div class="panel-heading">
-        <h3 class="panel-title">Welcome to AlgoApp!</h3>
-      </div>
-      <div class="panel-body">
-        Here you can discover creative algorithms, post reviews and get feedback for your own code. Have fun learning and connecting with other developers! 
-      </div>
-    </div>   
-    <div class="panel panel-primary">
-      <div class="panel-heading">
-        <h3 class="panel-title">Algorithm Categories</h3>
-      </div>
-      <div class="panel-body">
-        <em>Search for an algorithm by category</em><br>
-        <a href="/mains/sort"><span class="label label-default">Sort</span></a>
-        <a href="/mains/array"><span class="label label-default">Array</span></a>
-        <a href="/mains/binarysearch"><span class="label label-default">BinarySearch</span></a>
-        <a href="/mains/recursion"><span class="label label-default">Recursion</span></a>
-        <a href="/mains/linkedlist"><span class="label label-default">LinkedList</span></a>
-        <a href="/mains/divide&conquer"><span class="label label-default">Divide&Conquer</span></a>
-      </div>
-    </div>
+  <%= render 'layouts/welcome' %>
+  <%= render 'layouts/category' %>
 </div>

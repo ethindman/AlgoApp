@@ -6,6 +6,9 @@ class CreateUsers < ActiveRecord::Migration
       t.string :email
       t.string :encrypted_password
       t.string :hash_key
+      t.string :gravatar
+      t.string :belts
+      t.text :summary
 
       t.timestamps null: false
     end

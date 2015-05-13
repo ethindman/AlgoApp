@@ -1,19 +1,19 @@
 <div class="col-md-6">
   <div class="row">
-  <div class="col-lg-12">
-    <form action="/search">
-      <div class="input-group">
-        <input type="text" class="form-control" placeholder="Search for..." name="search">
-        <span class="input-group-btn">
-          <button class="btn btn-default" type="submit" data-disable-with="Searching..">Go!</button>
-        </span>
-      </div><!-- /input-group -->
-    </form>
-  </div><!-- /.col-lg-6 -->
-</div>
-<h3>Latest Algorithms</h3>
+    <div class="col-lg-12">
+      <form action="/search">
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="Search for..." name="search">
+          <span class="input-group-btn">
+            <button class="btn btn-default" type="submit" data-disable-with="Searching..">Go!</button>
+          </span>
+        </div><!-- /input-group -->
+      </form>
+    </div><!-- /.col-lg-12 -->
+  </div>
+  <h3>Search Results</h3>
 	<% if @posts.length == 0 %>
-		<p>NO ALGORITHMS FOUND</p>
+		<p>No Algorithms Found</p>
 	<% end %>
 	<% @posts.each do |post| %>
     <div class="media">
@@ -48,26 +48,6 @@
 		<% end %>
 </div>
 <div class="col-md-6">
-   <div class="panel panel-primary">
-      <div class="panel-heading">
-        <h3 class="panel-title">Welcome to AlgoApp!</h3>
-      </div>
-      <div class="panel-body">
-        Here you can discover creative algorithms, post reviews and get feedback for your own code. Have fun learning and connecting with other developers! 
-      </div>
-    </div>   
-    <div class="panel panel-primary">
-      <div class="panel-heading">
-        <h3 class="panel-title">Algorithm Categories</h3>
-      </div>
-      <div class="panel-body">
-        <em>Search for an algorithm by category</em><br>
-        <a href="/mains/sort"><span class="label label-default">Sort</span></a>
-        <a href="/mains/array"><span class="label label-default">Array</span></a>
-        <a href="/mains/binarysearch"><span class="label label-default">BinarySearch</span></a>
-        <a href="/mains/recursion"><span class="label label-default">Recursion</span></a>
-        <a href="/mains/linkedlist"><span class="label label-default">LinkedList</span></a>
-        <a href="/mains/divide&conquer"><span class="label label-default">Divide&Conquer</span></a>
-      </div>
-    </div>
+    <%= render 'layouts/welcome' %>
+    <%= render 'layouts/category' %>
 </div>
