@@ -4,7 +4,7 @@ class User < ActiveRecord::Base
 	has_many :favorites
 	
 	has_many :followships
-	has_many :followers, class_name: "User", foreign_key: "follower_id", through: :followerships
+	has_many :followers, class_name: "User", foreign_key: "follower_id", through: :followships
 
 	attr_accessor :password, :password_confirmation
 	
