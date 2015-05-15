@@ -6,6 +6,5 @@ class CreateFollowships < ActiveRecord::Migration
 
       t.timestamps null: false
     end
-    add_index :followers, :follower_id
   end
 end
