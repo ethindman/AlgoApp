@@ -16,10 +16,10 @@ class FollowshipsController < ApplicationController
   end
 
   def destroy
-	  @check = Followship.find_by(user_id: params[:id], follower_id: @current_user.id)
+	  @followship = @current_user.followships.find_by(follower_id: params[:id])
 	  @thisUser = User.find(params[:id])
-		if !@check.nil?
-			@check.destroy
+		if !@followship.nil?
+			@followship.destroy
 			flash[:success] = "You have unfollowed #{@thisUser.first_name}"
 	  	redirect_to(:back)
 	  else

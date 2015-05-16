@@ -4,7 +4,10 @@ class User < ActiveRecord::Base
 	has_many :favorites, dependent: :destroy
 
 	has_many :followships
-	has_many :followers, :through => :followships
+	has_many :followers, through: :followships
+
+	has_many :inverse_followships, class_name: "Followship", foreign_key: "follower_id"
+	has_many :inverse_followers, through: :inverse_followships, source: :user
 
 	attr_accessor :password, :password_confirmation
 	

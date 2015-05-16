@@ -1,7 +1,7 @@
 <%= render 'layouts/modal' %>
 
 <div class="row">
-	<div class="col-md-12">
+	<div class="col-md-8">
 		<div class="media">
 		  <div class="media-left">
 		    <img class="media-object thumbnail" src="<%= @current_user.gravatar %>" alt="gravatar image">
@@ -95,6 +95,37 @@
 			</div>
   	</div>
 	</div>
+
+	<div class="col-md-4">
+		<h4>People I'm Following</h4>
+		<% if @friends.length == 0 %>
+			<h5>Looks like you aren't following anybody yet...</h5>
+		<% else %>
+			<% @friends.each do |friend| %>
+				<div class="media">
+				  <div class="media-left">
+				    <a href="/users/<%= friend.id %>">
+				      <img class="media-object img-circle" id="profile-pic" src="<%= friend.gravatar %>" alt="Profile image">
+				    </a>
+				    <div class="text-center">
+							<form action="/followships/<%= friend.id %>" method="POST">
+						    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+						    <input type="hidden" name="_method" value="delete">
+						    <input type="submit" value="Following" class="btn btn-success btn-xs follow-btn" data-disable-with="Processing..">
+						  </form>
+						</div>
+				  </div>
+				  <div class="media-body">
+				    <a href="/users/<%= friend.id %>"><h4 class="media-heading"><%= friend.first_name %> <%= friend.last_name %></h4></a>
+				    <p><%=h truncate(friend.summary, :length => 60) %></p>
+				    <i>Member since: <%= friend.created_at.strftime("%B %d, %Y") %> </i>
+				  </div>
+				</div>
+			<% end %>
+		<% end %>		
+	</div>
+
+
 </div>
 
 <script>

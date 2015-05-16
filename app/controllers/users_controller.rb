@@ -5,8 +5,7 @@ class UsersController < ApplicationController
   def index
     @myPosts = @current_user.posts
     @myFavorites = @current_user.favorites.includes(:post).includes(:user)
-    # @myFollowers = @current_user.followers
-    # @myFriends = Followship.where(follower_id: @current_user.id).includes(:user)
+    @friends = @current_user.followers
   end
 
   def new
