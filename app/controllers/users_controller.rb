@@ -22,7 +22,7 @@ class UsersController < ApplicationController
     if @user.save
       sign_in @user
       flash[:success] = "Thank you for registering! Please enjoy the app!"
-      redirect_to :welcome
+      redirect_to :posts
     else
       flash[:errors_array] = @user.errors.full_messages
       redirect_to :mains
