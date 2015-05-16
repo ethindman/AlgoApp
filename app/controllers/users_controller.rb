@@ -3,9 +3,8 @@ class UsersController < ApplicationController
   before_action :require_signed_in, except: [:create]
 
   def index
-    @myPosts = @current_user.posts
-    @myFavorites = @current_user.favorites.includes(:post).includes(:user)
-    @friends = @current_user.followers
+    @users = User.all.where.not(id: session[:user_id]).order(created_at: "DESC").paginate(page: params[:page], per_page: 15)
+    @followships = Followship.all
   end
 
   def new
@@ -25,8 +24,6 @@ class UsersController < ApplicationController
       flash[:success] = "Thank you for registering! Please enjoy the app!"
       redirect_to :welcome
     else
-      
-
       flash[:errors_array] = @user.errors.full_messages
       redirect_to :mains
     end
@@ -36,8 +33,8 @@ class UsersController < ApplicationController
     if User.exists?(params[:id])
       @user = User.select("id, first_name, last_name, belts, gravatar, summary, created_at").find(params[:id])
       @user_posts = @user.posts
-      # @followers = @user.followships
-      # @following = @user.followships.find_by(follower_id: @current_user.id)
+      @followers = @user.inverse_followships
+      @following = @user.inverse_followships.where(user_id: @current_user.id)
     else
       flash[:errors] = "Couldn't find selected user."
       redirect_to :posts
@@ -81,6 +78,12 @@ class UsersController < ApplicationController
   end
 
   def destroy
+  end
+
+  def profile
+    @myPosts = @current_user.posts
+    @myFavorites = @current_user.favorites.includes(:post).includes(:user)
+    @friends = @current_user.followers
   end
 
   private

@@ -4,7 +4,7 @@
       <% if post.user_id != @current_user.id %>
         <a href="/users/<%= post.user_id %>">
       <% else %>
-        <a href="/users">
+        <a href="/profile">
       <% end %>
         <img class="media-object img-circle" id="profile-pic" src="<%= post.user.gravatar %>" alt="Generic placeholder image">
       </a>

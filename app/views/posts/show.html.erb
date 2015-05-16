@@ -38,7 +38,7 @@
 		<% end %>
 		<h5>Posted by 
 		<% if @post.user_id == @current_user.id %>
-			<a href="/users">
+			<a href="/profile">
 		<% else %>
 			<a href="/users/<%= @user.id %>">
 		<% end %>
@@ -77,7 +77,11 @@
 			<% @comments.each do |comment| %>
     <div class="media">
       <div class="media-left">
-        <a href="/users/<%= comment.user_id %>">
+        <% if comment.user_id == @current_user.id %>
+        	<a href="/profile">
+				<% else %>
+        	<a href="/users/<%= comment.user_id %>">
+        <% end %>
           <img class="media-object img-circle" id="profile-pic" src="<%= comment.user.gravatar %>" alt="Generic placeholder image">
         </a>
       </div>

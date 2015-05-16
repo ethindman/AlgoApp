@@ -1,153 +1,55 @@
-<%= render 'layouts/modal' %>
-
-<div class="row">
-	<div class="col-md-8">
-		<div class="media">
-		  <div class="media-left">
-		    <img class="media-object thumbnail" src="<%= @current_user.gravatar %>" alt="gravatar image">
-		  </div>
-		  <div class="media-body">
-		    <h4 class="media-heading">
-		    	<%= [@current_user.first_name, @current_user.last_name].join(" ") %>
-		    	<span>
-			    	<% if @current_user %>
-							<%= link_to "Edit profile", edit_user_path(@current_user) %>
-						<% end %>
-		    	</span>
-		    </h4>
-		    <% if @myFollowers %>
-					<p>Followers: <%= @myFollowers.count %></p>
-		    <% end %>
-		    <p>Member since: <%= @current_user.created_at.strftime("%B %d, %Y") %></p>
-		    <% if !@current_user.belts && @current_user.id %>
-		    	<%= link_to "Add certifications", edit_user_path(@current_user) %>
-		    <% else %>
-		    	<p>Belts: <%= @current_user.belts %></p>
-				<% end %>
-				<% if !@current_user.summary && @current_user.id %>
-		    	<%= link_to "Add description", edit_user_path(@current_user) %>
-		    <% else %>
-		    	<p>Summary: <%= @current_user.summary %></p>
-		    <% end %>
-		  </div>
-		</div>
-
-		<br>
-		
-		<div class="panel panel-primary">
-      <div class="panel-heading">
-        <h3 class="panel-title">My Algorithms</h3>
-      </div>
-      <div class="panel-body">
-				<% if @myPosts.length == 0 %>
-					<h5>Looks like you haven't uploaded any Algorithms yet...</h5>
-					<%= link_to "Post your first algorithm!", new_post_path, class: "btn btn-info" %>
-				<% else %>
-					<table class="table table-hover table-condensed">
-						<thead>
-							<tr>
-								<th>Title</th>
-								<th>Description</th>
-								<th>Created On</th>
-								<th>Delete</th>
-								<th>Update</th>
-							</tr>
-						</thead>
-						<tbody>
-						<% @myPosts.each do |post| %>
-							<tr>
-								<td><a href="/posts/<%= post.id %>"><%= post.title %></a></td>
-								<td><%= post.description %></td>
-								<td><%= post.created_at.strftime("%B %d, %Y") %></td>			
-								<td>
-									<a href="" id="post-data" data-id="<%= post.id %>" data-title="<%= post.title %>" data-toggle="modal" data-target="#confirm-destroy" class="btn btn-danger btn-xs">Delete</a>
-								</td>
-								<td>
-									<a href="/posts/<%= post.id %>/edit" class="btn btn-info btn-xs">Edit</a>
-								</td>
-							</tr>
-							<% end %>
-						</tbody>
-					</table>
-				<% end %>
-			</div>
-    </div>
-		
-		<br>
-
-		<div class="panel panel-primary">
-      <div class="panel-heading">
-        <h3 class="panel-title">Algorithms I Like</h3>
-      </div>
-	    <div class="panel-body">
-				<% if @myFavorites.length == 0 %>
-					<h5>Looks like you haven't liked any algorithms yet... Why not explore the site and find some?</h5>
-				<% else %>
-					<div class="list-group">
-						<% @myFavorites.each do |favorite| %>
-						  <a href="/posts/<%= favorite.post.id %>" class="list-group-item">
-						  <img src="<%= favorite.post.user.gravatar %>" class="img-circle" id="navbar-pic" alt="user image">
-						  <%= favorite.post.title %> <i>Posted by <%= favorite.post.user.first_name %> <%= favorite.post.user.last_name %> on <%= favorite.post.created_at.strftime("%B %d, %Y") %></i>
-						  </a>
-						<% end %>
-					</div>
-				<% end %>
-			</div>
-  	</div>
-	</div>
-
-	<div class="col-md-4">
-		<h4>People I'm Following</h4>
-		<% if @friends.length == 0 %>
-			<h5>Looks like you aren't following anybody yet...</h5>
-		<% else %>
-			<% @friends.each do |friend| %>
-				<div class="media">
-				  <div class="media-left">
-				    <a href="/users/<%= friend.id %>">
-				      <img class="media-object img-circle" id="profile-pic" src="<%= friend.gravatar %>" alt="Profile image">
-				    </a>
-				    <div class="text-center">
-							<form action="/followships/<%= friend.id %>" method="POST">
-						    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-						    <input type="hidden" name="_method" value="delete">
-						    <input type="submit" value="Following" class="btn btn-success btn-xs follow-btn" data-disable-with="Processing..">
-						  </form>
-						</div>
-				  </div>
-				  <div class="media-body">
-				    <a href="/users/<%= friend.id %>"><h4 class="media-heading"><%= friend.first_name %> <%= friend.last_name %></h4></a>
-				    <p><%=h truncate(friend.summary, :length => 60) %></p>
-				    <i>Member since: <%= friend.created_at.strftime("%B %d, %Y") %> </i>
-				  </div>
-				</div>
-			<% end %>
-		<% end %>		
-	</div>
-
+  <div class="col-md-6">
+    <h3>Discover New Users</h3>
+    <em>And connect with other coders posting awesome algorithms!</em>
+    <% if @users.length == 0 %>
+      <h5>Looks like you aren't following anybody yet...</h5>
+    <% else %>
+      <% @users.each do |user| %>
+        <div class="media">
+          <div class="media-left">
+            <a href="/users/<%= user.id %>">
+              <img class="media-object img-circle" id="profile-pic" src="<%= user.gravatar %>" alt="Profile image">
+            </a>
+          </div>
+          <div class="media-body">
+            <a href="/users/<%= user.id %>"><h4 class="media-heading"><%= user.first_name %> <%= user.last_name %></h4></a>
+            <p><%=h truncate(user.summary, :length => 60) %></p>
+            <% if user.id != @current_user.id && @followships.where(user_id: @current_user.id, follower_id: user.id).empty? %>
+              <form action="/followships" method="POST">
+                <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+                <input type="hidden" name="follow[user_id]" value="<%= user.id %>">
+                <input type="submit" value="Follow" class="btn btn-success btn-xs" data-disable-with="Following..">
+              </form>
+              <% elsif user.id != @current_user.id %>
+              <form action="/followships/<%= user.id %>" method="POST">
+                <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+                <input type="hidden" name="_method" value="delete">
+                <input type="submit" value="Following" class="btn btn-primary btn-xs follow-btn" data-disable-with="Processing..">
+              </form>
+            <% end %> 
+            <i>Member since: <%= user.created_at.strftime("%B %d, %Y") %> </i>
+          </div>
+        </div>
+        <hr>
+      <% end %>
+    <% end %> 
+    <div class="text-center">
+  <%= will_paginate @users, renderer: BootstrapPagination::Rails, previous_label: "Previous", next_label: "Next", inner_window: 1, outer_window: 0 %>    
+</div>
+  </div>
 
 </div>
-
 <script>
-	$(document).ready(function() {
-		$('a#post-data').on('click', function() {
-			var id = $(this).attr('data-id');
-			var title = $(this).attr('data-title');
-			$('a#destroy').attr('href', '/posts/'+id);
-			$('h4.modal-title').html('Delete '+title+'?');
-		});
-		$('.follow-btn').mouseenter(function() {
-		  $(this).removeClass('btn-success');
-		  $(this).addClass('btn-warning');
-		  $(this).val('Unfollow');
-		});
-		$('.follow-btn').mouseleave(function() {
-		  $(this).removeClass('btn-warning');
-		  $(this).addClass('btn-success');
-		  $(this).val('Following');
-		});
-	});
+  $(document).ready(function() {
+    $('.follow-btn').mouseenter(function() {
+      $(this).removeClass('btn-primary');
+      $(this).addClass('btn-warning');
+      $(this).val('Unfollow');
+    });
+    $('.follow-btn').mouseleave(function() {
+      $(this).removeClass('btn-warning');
+      $(this).addClass('btn-primary');
+      $(this).val('Following');
+    });
+  });
 </script>
-
-
-

@@ -1,5 +1,5 @@
 <div class="pull-right">
-  <% if @user.id != @current_user.id && @following.nil? %>
+  <% if @user.id != @current_user.id && @following.empty? %>
     <form action="/followships" method="POST">
       <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
       <input type="hidden" name="follow[user_id]" value="<%= @user.id %>">
@@ -9,7 +9,7 @@
     <form action="/followships/<%= @user.id %>" method="POST">
       <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
       <input type="hidden" name="_method" value="delete">
-      <input type="submit" value="Following" class="btn btn-success follow-btn" data-disable-with="Processing..">
+      <input type="submit" value="Following" class="btn btn-primary follow-btn" data-disable-with="Processing..">
     </form>
   <% end %> 
 </div>
@@ -58,13 +58,13 @@
 <script>
   $(document).ready(function(){ 
     $('.follow-btn').mouseenter(function() {
-      $(this).removeClass('btn-success');
+      $(this).removeClass('btn-primary');
       $(this).addClass('btn-warning');
-      $(this).val('Unfollow');
+      $(this).val('Unfollow..');
     });
   $('.follow-btn').mouseleave(function() {
       $(this).removeClass('btn-warning');
-      $(this).addClass('btn-success');
+      $(this).addClass('btn-primary');
       $(this).val('Following');
     });
   });

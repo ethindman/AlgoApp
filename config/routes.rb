@@ -1,10 +1,9 @@
 Rails.application.routes.draw do
 
   root 'mains#index'
+  
+  get 'profile' => 'users#profile'
   get 'logout' => 'sessions#destroy'
-  get 'search' => 'mains#show'
-  get 'welcome' => 'mains#welcome'
-  get 'all_users' => 'mains#all_users'
   
   get 'change_password' => 'users#change_password'
   post 'update_password' => 'users#update_password'
