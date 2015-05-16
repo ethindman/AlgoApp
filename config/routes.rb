@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   root 'mains#index'
   
   get 'profile' => 'users#profile'
+  get 'feed' => 'posts#feed'
   get 'logout' => 'sessions#destroy'
   
   get 'change_password' => 'users#change_password'

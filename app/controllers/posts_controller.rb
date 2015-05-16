@@ -4,8 +4,6 @@ class PostsController < ApplicationController
   before_action :set_post, only: [:show, :edit, :update, :destroy]
 
   def index
-    # ids = Followship.where(follower_id: @current_user.id).pluck(:user_id)
-    # @feeds = Post.where(user_id: ids).includes(:user).order(created_at: "DESC").paginate(page: params[:page], per_page: 15)
     @posts = Post.all.order(created_at: "DESC").paginate(page: params[:page], per_page: 15)
   end
 
@@ -16,7 +14,7 @@ class PostsController < ApplicationController
     @post = @current_user.posts.create(post_params)
     if @post.save
       flash[:success] = "New algorithm added!"
-      redirect_to :users
+      redirect_to :posts
     else 
       flash[:errors_array] = @post.errors.full_messages
       redirect_to "/posts/new"
@@ -69,6 +67,11 @@ class PostsController < ApplicationController
       flash[:success] = "Your algorithm was successfully deleted!"
       redirect_to :users
     end
+  end
+
+  def feed
+    ids = @current_user.followers.pluck(:id)
+    @posts = Post.where(user_id: ids).includes(:user).order(created_at: "DESC").paginate(page: params[:page], per_page: 15)
   end
 
   private

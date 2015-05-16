@@ -37,24 +37,31 @@
 </div>
 
 <h4><%= @user.first_name %>'s  Algorithms</h4>
-<table class="table table-bordered">
-	<thead>
-		<tr>
-			<th>Title</th>
-			<th>Description</th>
-			<th>Created On</th>
-		</tr>
-	</thead>
-	<tbody>
-	<% @user_posts.each do |post| %>
-		<tr>
-			<td><a href="/posts/<%= post.id %>"><%= post.title %></a></td>
-			<td><%= post.description %></td>
-			<td><%= post.created_at.to_formatted_s(:long_ordinal) %></td>			
-		</tr>
-		<% end %>
-	</tbody>
-</table>
+<% if @user_posts.empty? %>
+  <em>It looks like <%= @user.first_name %> hasn't posted any algorithms yet... Try checking back later.</em>
+<% else %>
+  <table class="table table-bordered">
+  	<thead>
+  		<tr>
+  			<th>Title</th>
+        <th>Description</th>
+  			<th>Likes</th>
+  			<th>Created On</th>
+  		</tr>
+  	</thead>
+  	<tbody>
+  	<% @user_posts.each do |post| %>
+  		<tr>
+  			<td><a href="/posts/<%= post.id %>"><%= post.title %></a></td>
+        <td><%= post.description %></td>
+  			<td><%= post.favorites.count %></td>
+  			<td><%= post.created_at.to_formatted_s(:long_ordinal) %></td>			
+  		</tr>
+  		<% end %>
+  	</tbody>
+  </table>
+<% end %>
+
 <script>
   $(document).ready(function(){ 
     $('.follow-btn').mouseenter(function() {
