@@ -13,19 +13,6 @@
           </div>
           <div class="media-body">
             <a href="/users/<%= user.id %>"><h4 class="media-heading"><%= user.first_name %> <%= user.last_name %></h4></a>
-              <% if user.id != @current_user.id && @followships.where(user_id: user.id, follower_id: @current_user.id).empty? %>
-              <form action="/followships" method="POST">
-                <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-                <input type="hidden" name="follow[user_id]" value="<%= user.id %>">
-                <input type="submit" value="Follow" class="btn btn-success btn-xs" data-disable-with="Following..">
-              </form>
-              <% elsif user.id != @current_user.id %>
-              <form action="/followships/<%= user.id %>" method="POST">
-                <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-                <input type="hidden" name="_method" value="delete">
-                <input type="submit" value="Following" class="btn btn-success btn-xs follow-btn" data-disable-with="Processing..">
-              </form>
-            <% end %> 
             <p><%=h truncate(user.summary, :length => 60) %></p>
             <i>Member since: <%= user.created_at.strftime("%B %d, %Y") %> </i>
           </div>
