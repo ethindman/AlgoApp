@@ -5,8 +5,8 @@ class UsersController < ApplicationController
   def index
     @myPosts = @current_user.posts
     @myFavorites = @current_user.favorites.includes(:post).includes(:user)
-    @myFollowers = @current_user.followships
-    @myFriends = Followship.where(follower_id: @current_user.id).includes(:user)
+    # @myFollowers = @current_user.followers
+    # @myFriends = Followship.where(follower_id: @current_user.id).includes(:user)
   end
 
   def new
@@ -37,8 +37,8 @@ class UsersController < ApplicationController
     if User.exists?(params[:id])
       @user = User.select("id, first_name, last_name, belts, gravatar, summary, created_at").find(params[:id])
       @user_posts = @user.posts
-      @followers = @user.followships
-      @following = @user.followships.find_by(follower_id: @current_user.id)
+      # @followers = @user.followships
+      # @following = @user.followships.find_by(follower_id: @current_user.id)
     else
       flash[:errors] = "Couldn't find selected user."
       redirect_to :posts

@@ -23,16 +23,6 @@ ActiveRecord::Schema.define(version: 20150505004753) do
   add_index "favorites", ["post_id"], name: "index_favorites_on_post_id"
   add_index "favorites", ["user_id"], name: "index_favorites_on_user_id"
 
-  create_table "followships", force: :cascade do |t|
-    t.integer  "user_id"
-    t.integer  "follower_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-  end
-
-  add_index "followships", ["follower_id"], name: "index_followships_on_follower_id"
-  add_index "followships", ["user_id"], name: "index_followships_on_user_id"
-
   create_table "posts", force: :cascade do |t|
     t.string   "title"
     t.text     "code"

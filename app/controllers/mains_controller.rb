@@ -12,11 +12,11 @@ class MainsController < ApplicationController
 
   def all_users
     @users = User.all.where.not(id: session[:user_id]).order(created_at: "DESC").paginate(page: params[:page], per_page: 15)
-    @followships = Followship.all
+    # @followships = Followship.all
   end
 
   def show
-    @followships = Followship.all
+    # @followships = Followship.all
     if params[:search]
       @posts = Post.where("title LIKE ? OR description LIKE ?", "%#{params[:search]}%", "%#{params[:search]}%")
     else
