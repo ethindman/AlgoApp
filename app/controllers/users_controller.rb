@@ -70,10 +70,10 @@ class UsersController < ApplicationController
     if @current_user.update(profile_params)
       flash[:success] = "Profile updated!"
       session[:user_name] = [@current_user.first_name, @current_user.last_name].join(" ")
-      redirect_to :users
+      redirect_to :profile
     else
       flash[:errors] = "Something went wrong... Please try again later."
-      redirect_to :users
+      redirect_to :profile
     end
   end
 
