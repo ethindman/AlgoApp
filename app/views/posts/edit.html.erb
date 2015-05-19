@@ -23,13 +23,13 @@
 				editor.getSession().setUseWrapMode(true);
 
 				editor.getSession().on('change', function(e) {
-	    			code = editor.getSession().getValue();
+	    		code = editor.getSession().getValue();
 				});
 
 				$(document).ready(function() {
 					$('#post-edit-button').click(function() {
-					  	$('#codearea').val(code);
-				  	});
+				  	$('#codearea').val(code);
+			  	});
 				});
 			</script>
 		</div>

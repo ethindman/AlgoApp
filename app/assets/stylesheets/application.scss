@@ -10,7 +10,7 @@
 @import "bootswatch/cosmo/bootswatch";
 
 //colors
-$chestnut_rose: indianred;
+$red: indianred;
 
 .alert {
 	margin-top: -22px;
@@ -26,13 +26,11 @@ $chestnut_rose: indianred;
 	width: 64px;
 }
 #favorite-button {
-	color: $chestnut_rose;
+	color: $red;
 }
-
 #container {
 	min-height: 400px;
 }
-
 #editor { 
   position: absolute;
   top: 0;
@@ -40,11 +38,28 @@ $chestnut_rose: indianred;
   bottom: 0;
   left: 0;
   font-size: 14px;
+  margin: auto 15px;
 }
-
+#console {
+	display: none;
+	min-height: 200px;
+	border: 1px solid black;
+	overflow: auto;
+}
+#console-ctrl {
+	margin: 10px auto;
+}
+.col-right, .col-left {
+	width: 49.7666%;
+	display: inline-block;
+	vertical-align: top;
+}
 .label-default {
 	background: none;
 	border-radius: 5px;
 	border: 1px solid #ddd;
 	color: black;
+}
+p.danger {
+	color: $red;
 }
