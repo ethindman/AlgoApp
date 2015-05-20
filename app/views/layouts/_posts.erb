@@ -18,7 +18,16 @@
       </em>
       <a href="/mains/<%= post.category %>">
         <span class="label label-primary"><%= post.category %></span>
-      </a>
+      </a><br>
+      <% @favorites = post.favorites %>
+        Liked by
+      <% @favorites.each do |favorite| %>
+        <% if favorite.user.id == @current_user.id %>
+          <a href="/profile"><em>You</em></a>
+        <% else %>
+          <a href="/users/<%= favorite.user.id %>"><em><%= favorite.user.first_name %></em></a>
+        <% end %>
+      <% end %>
     </div>
   </div>
   <hr>
